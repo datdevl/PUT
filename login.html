@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập - Website Giảng Dạy Khóa Học</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="relative font-sans min-h-screen">
+  <!-- Ảnh nền toàn màn hình -->
+  <div class="absolute inset-0">
+    <img src="/data/bg-login.png" 
+         alt="bg-login" 
+         class="w-full h-full object-cover brightness-75" />
+  </div>
+
+  <!-- Form đăng nhập nổi lên trên ảnh nền -->
+  <div class="relative z-10 flex items-center justify-center min-h-screen">
+    <div class="bg-white/80 p-8 rounded-lg shadow-lg w-full max-w-md backdrop-blur-md">
+      <h2 class="text-2xl font-bold mb-6 text-center">Đăng nhập</h2>
+      <form id="loginForm">
+        <div class="mb-4">
+          <label class="block text-gray-700">Tên đăng nhập</label>
+          <input type="text" id="username" class="w-full p-2 border rounded" required>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Mật khẩu</label>
+          <input type="password" id="password" class="w-full p-2 border rounded" required>
+        </div>
+        <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Đăng nhập</button>
+      </form>
+      <p class="mt-2 text-center">
+        <a href="index.html" class="text-blue-500 hover:underline">Quay lại trang chủ</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Giảng Dạy Khóa Học</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Font Awesome cho biểu tượng -->
+</head>
+<body class="bg-gray-100 font-sans overflow-x-hidden">
+  <!-- Trang chủ -->
+  <div id="home" class="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 text-white overflow-hidden">
+    <!-- Hiệu ứng parallax nền với các biểu tượng hình học -->
+    <div class="absolute inset-0 z-0">
+      <div class="geometric-shape shape1" style="background: rgba(255, 255, 255, 0.1);"></div>
+      <div class="geometric-shape shape2" style="background: rgba(255, 204, 0, 0.2);"></div>
+      <div class="geometric-shape shape3" style="border: 2px solid rgba(255, 255, 255, 0.3);"></div>
+      <div class="geometric-shape shape4" style="background: rgba(255, 105, 180, 0.2);"></div>
+    </div>
+    <div class="relative z-10 text-center px-4">
+      <!-- Ảnh giảng viên -->
+      <div class="relative w-64 h-64 mx-auto mb-8 group">
+        <img src="./data/teacher.jpg" alt="Giảng viên" class="w-full h-full object-cover rounded-full shadow-xl transform transition-all duration-500 group-hover:scale-110 group-hover:shadow-2xl">
+        <div class="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 to-pink-500 opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
+        <div class="absolute inset-0 rounded-full border-4 border-transparent group-hover:border-yellow-300 transition-all duration-500"></div>
+      </div>
+      <!-- Thông tin giảng viên -->
+      <h1 class="text-5xl font-extrabold mb-4 tracking-tight">Giảng viên: Đặng Anh Thư</h1>
+      <!-- EDIT HERE: Thay đổi thông tin giảng viên -->
+      <p class="text-xl mb-4 flex items-center justify-center">
+        <i class="fas fa-paint-brush mr-2 text-yellow-300"></i> Kinh nghiệm: Editor: 5 năm | Giảng dạy: 3 năm
+      </p>
+      <!-- Đánh giá 5 sao -->
+      <div class="flex justify-center mb-6">
+        <span class="text-yellow-400 text-3xl animate-pulse">★★★★★</span>
+      </div>
+      <!-- Thông tin liên hệ -->
+      <div class="space-y-3">
+        <p class="text-lg flex items-center justify-center">
+          <i class="fab fa-facebook-f mr-2 text-blue-400"></i>
+          Facebook: <a href="https://facebook.com/td95328" target="_blank" class="underline hover:text-yellow-300 transition">邓英书 (Đặng Anh Thư)</a> <!-- EDIT HERE: Thay đổi link Facebook -->
+        </p>
+        <p class="text-lg flex items-center justify-center">
+          <i class="fas fa-phone-alt mr-2 text-green-400"></i>
+          Số điện thoại: 0783.542.782 <!-- EDIT HERE: Thay đổi số điện thoại -->
+        </p>
+        <p class="text-lg flex items-center justify-center">
+          <i class="fas fa-phone-alt mr-2 text-green-400"></i>
+          Zalo: 0343.094.018 <!-- EDIT HERE: Thay đổi zalo  -->
+        </p>
+        <p class="text-lg flex items-center justify-center">
+          <i class="fas fa-envelope mr-2 text-red-400"></i>
+          Email: danganhthu.anhthudang@email.com <!-- EDIT HERE: Thay đổi email -->
+        </p>
+        <br>
+      </div>
+      <div style="display:flex;align-items: center; gap: 50px;">
+        <image src="./data/cc.png" style="width: 450px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></image>
+        <image src="./data/ae.png" style="width: 450px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></image>
+      </div>
+      <!-- Nút điều hướng -->
+      <div class="mt-8 space-x-6">
+        <a href="signin.html" class="inline-block bg-yellow-400 text-gray-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-yellow-500 transform hover:scale-105 transition-all duration-300 shadow-lg">Đăng ký</a>
+        <a href="login.html" class="inline-block bg-white text-gray-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-200 transform hover:scale-105 transition-all duration-300 shadow-lg">Đăng nhập</a>
+      </div>
+      <br><br><br><br>
+    </div>
+  </div>
+  <footer>
+    <h6 style="text-align: center;background-color: black; color:aliceblue"> Codding by Đạt Dê Vờ Lờ</h6>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* Hiệu ứng hover cho ảnh giảng viên */
+img {
+  transition: all 0.5s ease;
+}
+
+/* Hiệu ứng parallax và biểu tượng hình học */
+.geometric-shape {
+  position: absolute;
+  animation: float 10s infinite ease-in-out;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.shape1 {
+  width: 100px;
+  height: 100px;
+  top: 10%;
+  left: 10%;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  animation-delay: 0s;
+}
+
+.shape2 {
+  width: 80px;
+  height: 80px;
+  top: 70%;
+  right: 15%;
+  clip-path: circle(50% at 50% 50%);
+  animation-delay: 2s;
+}
+
+.shape3 {
+  width: 120px;
+  height: 120px;
+  bottom: 20%;
+  left: 20%;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  animation-delay: 4s;
+}
+
+.shape4 {
+  width: 90px;
+  height: 90px;
+  top: 30%;
+  right: 25%;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation-delay: 6s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-20px) rotate(45deg);
+    opacity: 0.4;
+  }
+}
+
+/* Tùy chỉnh Tailwind nếu cần */

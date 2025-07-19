@@ -127,8 +127,8 @@ document.getElementById('registerForm')?.addEventListener('submit', async functi
   const encodedBody = encodeURIComponent(body.replace(/<b>|<\/b>|<i>|<\/i>/g, '')); // Gmail không nhận HTML qua URL
 
   const isMobile = /iPhone|iPad|Android|Mobile/i.test(navigator.userAgent);
-  const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=dat.dev.vl@email.com&su=${encodedSubject}&body=${encodedBody}`;
-  const mailtoLink = `mailto:dat.dev.vl@email.com?subject=${encodedSubject}&body=${encodedBody}`;
+  const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=dat.dev.vl@gmail.com&su=${encodedSubject}&body=${encodedBody}`;
+  const mailtoLink = `mailto:dat.dev.vl@gmail.com?subject=${encodedSubject}&body=${encodedBody}`;
 
   if (isMobile) {
     window.location.href = mailtoLink;

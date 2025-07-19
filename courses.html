@@ -69,9 +69,9 @@
 
   <!-- Nội dung chính -->
   <div class="container mx-auto p-8 text-white">
-    <h2 class="text-3xl font-bold text-center mb-8">Danh sách khóa học</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Khóa học 1 -->
+    <p class="text-3xl font-bold text-center mb-8">DANH SÁCH KHÓA HỌC</p>
+    <!--<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       Khóa học 1 --
       <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg overflow-hidden course-card">
         <img src="./TAINGUYEN/vid1.png" alt="Khóa học 1" class="course-image">
         <div class="p-4 text-gray-800">
@@ -80,7 +80,7 @@
           <a href="payment.html?course=course1" class="mt-4 w-full block bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center buy-button">Mua ngay</a>
         </div>
       </div>
-      <!-- Khóa học 2 -->
+      <!-- Khóa học 2 
       <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg overflow-hidden course-card">
         <img src="./TAINGUYEN/vid2.png" alt="Khóa học 2" class="course-image">
         <div class="p-4 text-gray-800">
@@ -88,7 +88,10 @@
           <p class="text-gray-700">Giá: 1,200,000 VNĐ</p>
           <a href="payment.html?course=course2" class="mt-4 w-full block bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center buy-button">Mua ngay</a>
         </div>
-      </div>
+      </div> -->
+      <!-- Thay vì grid chứa cứng khóa học, bạn để: -->
+       <!-- NHAP KHOA HOC-->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="courseContainer"></div>
       
     </div>
     <p class="mt-8 text-center"><a href="index.html" class="text-blue-200 hover:underline">Quay lại trang chủ</a></p>
@@ -115,5 +118,6 @@
       e.preventDefault();
     });
   </script>
+  <script src="script-course-loader.js"></script>
 </body>
 </html>

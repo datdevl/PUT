@@ -1,0 +1,23 @@
+ID_video[
+vid1.mp4
+vid2.mp4
+]
+
+ID_pic[
+pic1.png
+pic2.png
+]
+
+ID_name[
+Bài 1: CapCut
+Bài 2: After Effect
+]
+
+ID_money[
+MIỄN PHÍ
+1.200.000 VNĐ
+]
+ID_courses[
+TD0001
+DL2007
+]

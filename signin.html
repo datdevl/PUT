@@ -31,7 +31,6 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
-
     .form-container {
       animation: fadeIn 0.6s ease-out forwards;
       opacity: 0;
@@ -41,16 +40,26 @@
     }
     .particle {
       position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #ffffff;
+      width: 6px;
+      height: 6px;
+      background: radial-gradient(circle, #ff4500, #ff8c00); /* Gradient từ cam sang vàng cam */
       border-radius: 50%;
-      animation: burst 1.5s ease-out forwards;
+      animation: burst 1.2s ease-out forwards;
       pointer-events: none;
     }
+
     @keyframes burst {
-      0% { transform: scale(0) translate(0, 0); opacity: 1; }
-      100% { transform: scale(2) translate(0, -50px); opacity: 0; }
+      0% {
+        transform: scale(0) translate(0, 0);
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1.5) translate(0, -60px); /* Di chuyển xa hơn và lớn hơn */
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -74,8 +83,8 @@
           <input type="text" id="name" class="w-full p-2 border rounded" required>
         </div>
         <div class="mb-4">
-          <label class="block text-gray-700">Email</label>
-          <input type="email" id="email" class="w-full p-2 border rounded" required>
+          <label class="block text-gray-700">Email hoặc Số điện thoại</label>
+          <input type="text" id="contact" class="w-full p-2 border rounded" required>
         </div>
         <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Gửi đăng ký</button>
       </form>
@@ -89,36 +98,31 @@
     document.addEventListener('DOMContentLoaded', () => {
       const formContainer = document.querySelector('.form-container');
       setTimeout(() => formContainer.style.opacity = 1, 100); // Delay for fade-in
+
+      // Hiệu ứng hạt khi gửi form
+      document.getElementById('registerForm').addEventListener('submit', function(e) {
+        const button = this.querySelector('button');
+        const formRect = button.getBoundingClientRect();
+        const container = document.querySelector('.relative.z-10');
+
+        for (let i = 0; i < 20; i++) {
+          const particle = document.createElement('div');
+          particle.classList.add('particle');
+          const angle = (i / 20) * 2 * Math.PI;
+          const x = Math.cos(angle) * 20;
+          const y = Math.sin(angle) * 20;
+          particle.style.left = `${formRect.left + formRect.width / 2 + x}px`;
+          particle.style.top = `${formRect.top + formRect.height / 2 + y}px`;
+          container.appendChild(particle);
+        }
+
+        setTimeout(() => {
+          document.querySelectorAll('.particle').forEach(p => p.remove());
+        }, 1500);
+      });
     });
 
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const button = this.querySelector('button');
-      const formRect = button.getBoundingClientRect();
-      const container = document.querySelector('.relative.z-10');
-      
-      // Create particle burst
-      for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        const angle = (i / 20) * 2 * Math.PI;
-        const x = Math.cos(angle) * 20;
-        const y = Math.sin(angle) * 20;
-        particle.style.left = `${formRect.left + formRect.width / 2 + x}px`;
-        particle.style.top = `${formRect.top + formRect.height / 2 + y}px`;
-        container.appendChild(particle);
-      }
-
-      // Simulate submission
-      setTimeout(() => {
-        alert('Đăng ký thành công!');
-        document.querySelectorAll('.particle').forEach(p => p.remove());
-      }, 1500);
-    });
-  </script>
-  
-    //script này để Cấm Phải chuột
-  <script>
+    // Cấm chuột phải
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
     });

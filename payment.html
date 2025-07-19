@@ -7,6 +7,13 @@
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-x: hidden;
+    }
     /* Coin and Dollar Animation Styles */
     .coin, .dollar {
       position: absolute;
@@ -81,7 +88,7 @@
   </style>
 </head>
 <body class="bg-gray-100 font-sans">
-  <div class="absolute top-0 left-0 w-full h-full -z-10">
+  <div class="fixed inset-0 -z-10">
     <img src="./data/bg-pay.png" alt="bg-pay" class="w-full h-full object-cover brightness-75">
   </div>
   <!-- Animated Coin and Dollar Icons -->
@@ -108,18 +115,19 @@
   <div class="min-h-screen flex items-center justify-center">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
       <h2 class="text-2xl font-bold mb-6 text-center">THANH TOÁN KHÓA HỌC</h2>
-      <p class="text-lg mb-4"><strong>KHÓA HỌC-</strong> <span id="courseName"></span></p>
+      <p class="text-lg mb-4"><strong>KHÓA HỌC -</strong> <span id="courseName"></span></p>
       <p class="text-lg mb-4"><strong>SỐ TIỀN: </strong><u><span id="coursePrice"></span></u></p>
+      <h6 style="color:red">Lưu ý: ID được cấp có giá trị vĩnh viễn nên có thể truy cập mọi lúc bằng ID đó!!! </h6>
       <img src="./data/qr.png" alt="Mã QR thanh toán" class="w-48 h-48 mx-auto mb-4">
-      <h2 class="text-center mb-4">Nội dung chuyển khoản: <i>Thanh toán <span id="courseId"></span></i></h2>
-      <p class="text-center mb-4">Vui lòng chụp build giao dịch gửi qua Zalo: <u><b>0343.094.018</b></u> để được cấp ID 'Khóa Học'.</p>
+      <h2 class="text-center mb-4">Nội dung chuyển khoản: <br><mark><i><b>Thanh toán</b> <span id="courseId"></span></i></mark></h2>
+      <p class="text-center mb-4">Vui lòng chụp bill giao dịch gửi qua Zalo: <u><b>0343.094.018</b></u> để được cấp ID 'Khóa Học'.</p>
       <!-- Input ID và nút Gửi -->
       <p id="videoLink" class="text-center hidden">
         <input id="courseIdInput" type="text" placeholder="NHẬP ID KHÓA HỌC ✍️" style="border: 5px dotted black; padding: 8px; width: 200px; margin-right: 8px;">
         <button onclick="checkCourseId()" style="background-color: #3b82f6; color: white; padding: 8px 16px; border-radius: 4px; border: none; cursor: pointer;">Gửi</button>
         <!-- Verify email-sending functionality in script.js for checkCourseId() -->
       </p>
-      <button onclick="simulatePayment()" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Xác nhận thanh toán</button>
+      <button onclick="simulatePayment()" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Xác nhận thanh toán | Nhập ID</button>
       <!-- Verify email-sending functionality in script.js for simulatePayment() -->
       <p class="mt-2 text-center"><a href="courses.html" class="text-blue-500 hover:underline">Quay lại danh sách khóa học</a></p>
     </div>

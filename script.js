@@ -1,58 +1,37 @@
 // ========================
 // Danh sách tài khoản
 // ========================
-const accounts = [
-  { username: 'levandat', password: '1032007aA@' },
-  { username: 'put', password: 'put' }
-  // Thêm tài khoản mới tại đây
-];
+let accounts = [];
 
-// ========================
-// Danh sách ID khóa học
-// ========================
-const courseIds = [
-  { course: 'course1', courseIds: ['CC1003', 'CC0302'], video: './TAINGUYEN/vid1.mp4' },
-  { course: 'course2', courseIds: ['AE2007'], video: './TAINGUYEN/vid2.mp4' }
-  // Thêm khóa học mới tại đây
-];
-
-// ========================
-// Hàm tạo mật khẩu ngẫu nhiên
-// ========================
-function generateRandomPassword() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-  let password = '';
-  for (let i = 0; i < 6; i++) {
-    const randomIndex = Math.floor(Math.random() * chars.length);
-    password += chars[randomIndex];
-  }
-  return password;
-}
-
-// ========================
-// Xử lý trang thanh toán
-// ========================
-function loadPaymentPage() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const courseId = urlParams.get('course');
-
-  const courseData = {
-    course1: { name: 'BÀI 1: CAPCUT', price: '900,000 VNĐ', video: './TAINGUYEN/vid1.mp4' },
-    course2: { name: 'BÀI 1: AFTER EFFECT', price: '1,200,000 VNĐ', video: './TAINGUYEN/vid2.mp4' }
-    // Thêm khóa học mới tại đây
-  };
-
-  if (courseId && courseData[courseId]) {
-    document.getElementById('courseName').textContent = courseData[courseId].name;
-    document.getElementById('coursePrice').textContent = courseData[courseId].price;
-    document.getElementById('courseId').textContent = courseId;
+async function fetchAccountsFromGoogleSheet() {
+  const url = 'https://docs.google.com/spreadsheets/d/1sI6e6ZSoDGEHfsww0AqYI3q6MbCSKmTa4r233qYJTiI/export?format=csv';
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    const lines = text.trim().split('\n');
+    accounts = lines.slice(1).map(line => {
+      const parts = line.split(',');
+      const username = parts[1]?.trim();
+      const password = parts[2]?.trim();
+      return { username, password };
+    }).filter(acc => acc.username && acc.password);
+  } catch (err) {
+    console.error('Lỗi khi tải Google Sheet:', err);
   }
 }
 
 // ========================
-// Xử lý đăng ký
+// Biến toàn cục lưu thông tin khóa học
 // ========================
-// Hàm tạo mật khẩu ngẫu nhiên
+let globalData = {
+  names: [],
+  prices: [],
+  videos: [],
+  pics: [],
+  ids: []
+};
+let dataReady = false;
+
 function generateRandomPassword() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
   let password = '';
@@ -62,11 +41,83 @@ function generateRandomPassword() {
   return password;
 }
 
-// Lấy hệ điều hành & trình duyệt
+async function loadCourseData() {
+  const res = await fetch('./QUANLI.txt');
+  const text = await res.text();
+
+  const parseBlock = (label) => {
+    const regex = new RegExp(`${label}\\[(.*?)\\]`, 's');
+    const match = text.match(regex);
+    if (!match) return [];
+    return match[1]
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line && line !== ']');
+  };
+
+  globalData.videos = parseBlock("ID_video");
+  globalData.pics = parseBlock("ID_pic");
+  globalData.names = parseBlock("ID_name");
+  globalData.prices = parseBlock("ID_money");
+  globalData.ids = parseBlock("ID_courses");
+
+  dataReady = true;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const courseParam = urlParams.get('course');
+  let index = -1;
+
+  if (courseParam?.startsWith('course')) {
+    const num = parseInt(courseParam.replace('course', ''));
+    if (!isNaN(num)) index = num - 1;
+  } else if (courseParam) {
+    index = globalData.ids.findIndex(id => id.toUpperCase() === courseParam.toUpperCase());
+  }
+
+  if (index >= 0 && index < globalData.names.length) {
+    document.getElementById('courseName').textContent = globalData.names[index];
+    document.getElementById('coursePrice').textContent = globalData.prices[index];
+    document.getElementById('courseId').textContent = globalData.names[index];
+  }
+}
+
+function simulatePayment() {
+  alert('QTV đã cấp ID cho học viên, vui lòng nhập ID để bắt đầu !');
+  document.getElementById('videoLink')?.classList.remove('hidden');
+}
+
+function checkCourseId() {
+  if (!dataReady) {
+    alert('⏳ Vui lòng đợi dữ liệu tải xong rồi thử lại.');
+    return;
+  }
+  const inputId = document.getElementById('courseIdInput').value.trim().toUpperCase();
+  const urlParams = new URLSearchParams(window.location.search);
+  const courseParam = urlParams.get('course');
+
+  let expectedIndex = -1;
+  if (courseParam?.startsWith('course')) {
+    const num = parseInt(courseParam.replace('course', ''));
+    if (!isNaN(num)) expectedIndex = num - 1;
+  } else {
+    expectedIndex = globalData.ids.findIndex(id => id.toUpperCase() === courseParam?.toUpperCase());
+  }
+
+  if (expectedIndex >= 0 && expectedIndex < globalData.ids.length) {
+    const expectedId = globalData.ids[expectedIndex]?.toUpperCase();
+    if (inputId === expectedId) {
+      const videoFile = globalData.videos[expectedIndex];
+      window.location.href = `./TAINGUYEN/${videoFile}`;
+      return;
+    }
+  }
+
+  alert('❌ ID chưa chính xác!');
+}
+
 function detectDeviceInfo() {
   const userAgent = navigator.userAgent;
   let os = "Không xác định";
-
   if (/Windows NT/.test(userAgent)) os = "Windows";
   else if (/Mac OS X/.test(userAgent)) os = "macOS";
   else if (/Android/.test(userAgent)) os = "Android";
@@ -84,110 +135,87 @@ function detectDeviceInfo() {
   return { os, browser };
 }
 
-// Gửi form đăng ký
-document.getElementById('registerForm')?.addEventListener('submit', async function (e) {
-  e.preventDefault();
-
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const password = generateRandomPassword();
-  const { os, browser } = detectDeviceInfo();
-
-  // Lấy IP máy
-  let ipAddress = 'Không xác định';
+async function submitToGoogleForm(contact, password, name) {
+  const webAppURL = 'https://script.google.com/macros/s/AKfycbyTGDxYZ_frQHHLEh2FjVJ3S3RogDfRxAJACdoYGgjaDhLCpqp_pMix0WefFecimte7/exec';
+  
+  // Gửi dữ liệu dưới dạng tham số URL
+  const url = `${webAppURL}?contact=${encodeURIComponent(contact)}&password=${encodeURIComponent(password)}&name=${encodeURIComponent(name)}`;
+  
   try {
-    const res = await fetch('https://api.ipify.org?format=json');
-    const data = await res.json();
-    ipAddress = data.ip;
-  } catch {
-    ipAddress = 'Lỗi khi lấy IP';
+    const response = await fetch(url, {
+      method: 'POST', // Dùng POST để tương thích với doPost
+      mode: 'no-cors' // Bỏ qua lỗi CORS nếu cần
+    });
+    console.log('Dữ liệu đã gửi thành công:', { contact, password, name });
+  } catch (error) {
+    console.error('Lỗi khi gửi dữ liệu:', error);
   }
+}
 
-  const subject = '📩 Đăng ký tài khoản';
-  const body = `
-📩 <b>ĐĂNG KÝ TÀI KHOẢN TRUY CẬP KHÓA HỌC</b>
+let submitted = false;
 
-🧑‍💻 <b>Thông tin người đăng ký:</b>
-  🔹 <b>Họ và tên:</b> <b>${name}</b>
-  🔹 <b>Email:</b> <b>${email}</b>
-  🔹 <b>Mật khẩu khởi tạo:</b> <b>${password}</b>
+const registerForm = document.getElementById('registerForm');
+if (registerForm) {
+  registerForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-🖥️ <b>Thông tin thiết bị:</b>
-  💻 <b>Hệ điều hành:</b> ${os}
-  🌐 <b>Trình duyệt:</b> ${browser}
-  📡 <b>Địa chỉ IP:</b> ${ipAddress}
+    if (submitted) return;
+    submitted = true;
 
-📎 <i>Rất mong Quản trị viên xét duyệt và cấp quyền truy cập sớm nhất.</i>
+    const name = document.getElementById('name').value.trim();
+    const contact = document.getElementById('contact').value.trim();
 
-🙏 <b>Trân trọng cảm ơn!</b>
-— <b>${name}</b>
-  `.trim();
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+    const isPhone = /^0\d{9}$/.test(contact);
 
-  const encodedSubject = encodeURIComponent(subject);
-  const encodedBody = encodeURIComponent(body.replace(/<b>|<\/b>|<i>|<\/i>/g, '')); // Gmail không nhận HTML qua URL
-
-  const isMobile = /iPhone|iPad|Android|Mobile/i.test(navigator.userAgent);
-  const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=dat.dev.vl@gmail.com&su=${encodedSubject}&body=${encodedBody}`;
-  const mailtoLink = `mailto:dat.dev.vl@gmail.com?subject=${encodedSubject}&body=${encodedBody}`;
-
-  if (isMobile) {
-    window.location.href = mailtoLink;
-  } else {
-    const newTab = window.open(gmailURL, '_blank');
-    if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
-      alert("⚠️ Trình duyệt đã chặn cửa sổ bật lên. Vui lòng bật lại popup.");
+    if (!isEmail && !isPhone) {
+      alert("❌ Vui lòng nhập đúng Email hoặc Số điện thoại hợp lệ (10 số).");
+      submitted = false;
+      return;
     }
-  }
 
-  alert("✅ Đã tạo email soạn sẵn! Hãy kiểm tra nội dung và nhấn 'Gửi'.");
-});
+    if (!name) {
+      alert("❌ Vui lòng nhập Họ và tên.");
+      submitted = false;
+      return;
+    }
 
-// ========================
-// Xử lý đăng nhập
-// ========================
-document.getElementById('loginForm')?.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
+    const password = generateRandomPassword();
 
-  const account = accounts.find(acc => acc.username === username && acc.password === password);
+    await submitToGoogleForm(contact, password, name);
 
-  if (account) {
-    alert('Đăng nhập thành công!');
-    window.location.href = 'courses.html';
-  } else {
-    alert('Tên đăng nhập hoặc mật khẩu không đúng!');
-  }
-});
+    const contactLabel = isEmail ? "Email" : "Số điện thoại";
+    alert(`✅ Đăng ký thành công!\nHọ và tên: ${name}\n${contactLabel}: ${contact}\nMật khẩu: ${password}`);
 
-// ========================
-// Mô phỏng thanh toán
-// ========================
-function simulatePayment() {
-  alert('Xác nhận thanh toán thành công!');
-  document.getElementById('videoLink')?.classList.remove('hidden');
+    setTimeout(() => {
+      submitted = false;
+      registerForm.reset();
+    }, 1500);
+  });
 }
 
 // ========================
-// Kiểm tra ID khóa học
+// Xử lý đăng nhập từ Google Sheet
 // ========================
-function checkCourseId() {
-  const inputId = document.getElementById('courseIdInput').value.trim();
-  const urlParams = new URLSearchParams(window.location.search);
-  const courseId = urlParams.get('course');
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+  loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-  const validCourse = courseIds.find(course => course.course === courseId && course.courseIds.includes(inputId));
+    await fetchAccountsFromGoogleSheet();
+    const account = accounts.find(acc => acc.username === username && acc.password === password);
 
-  if (validCourse) {
-    window.location.href = validCourse.video;
-  } else {
-    alert('ID chưa chính xác!');
-  }
+    if (account) {
+      alert('Đăng nhập thành công!');
+      window.location.href = 'courses.html';
+    } else {
+      alert('Tên đăng nhập hoặc mật khẩu không đúng!');
+    }
+  });
 }
 
-// ========================
-// Tải dữ liệu khi vào payment.html
-// ========================
 if (window.location.pathname.includes('payment.html')) {
-  window.onload = loadPaymentPage;
+  window.onload = loadCourseData;
 }

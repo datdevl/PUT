@@ -78,7 +78,12 @@
       </p>
     </div>
   </div>
-
   <script src="script.js"></script>
+    //script này để Cấm Phải chuột
+  <script>
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
+  </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   scroll-behavior: smooth;
+  user-select: none; /* Ngăn chọn văn bản trên toàn bộ trang */
 }
 
 /* Hiệu ứng hover cho ảnh giảng viên */

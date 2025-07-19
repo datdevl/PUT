@@ -1,18 +1,24 @@
+// ========================
 // Danh sách tài khoản
+// ========================
 const accounts = [
   { username: 'levandat', password: '1032007aA@' },
   { username: 'put', password: 'put' }
-  // EDIT HERE: Thêm tài khoản mới vào đây, ví dụ: { username: 'ten_nguoi_dung', password: 'mat_khau' }
+  // Thêm tài khoản mới tại đây
 ];
 
+// ========================
 // Danh sách ID khóa học
+// ========================
 const courseIds = [
-  { course: 'course1', courseIds: ['CC1003', 'CC0302'], video: './TAINGUYEN/vid1.mp4' }, // EDIT HERE: Thay đổi đường dẫn video
-  { course: 'course2', courseIds: ['AE2007'], video: './TAINGUYEN/vid2.mp4' } // EDIT HERE: Thay đổi đường dẫn video
-  // EDIT HERE: Thêm khóa học và ID mới vào đây, ví dụ: { course: 'courseX', courseIds: ['ID1', 'ID2'], video: 'videos/videoX.mp4' }
+  { course: 'course1', courseIds: ['CC1003', 'CC0302'], video: './TAINGUYEN/vid1.mp4' },
+  { course: 'course2', courseIds: ['AE2007'], video: './TAINGUYEN/vid2.mp4' }
+  // Thêm khóa học mới tại đây
 ];
 
+// ========================
 // Hàm tạo mật khẩu ngẫu nhiên
+// ========================
 function generateRandomPassword() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
   let password = '';
@@ -23,15 +29,19 @@ function generateRandomPassword() {
   return password;
 }
 
+// ========================
 // Xử lý trang thanh toán
+// ========================
 function loadPaymentPage() {
   const urlParams = new URLSearchParams(window.location.search);
   const courseId = urlParams.get('course');
+
   const courseData = {
     course1: { name: 'BÀI 1: CAPCUT', price: '900,000 VNĐ', video: './TAINGUYEN/vid1.mp4' },
     course2: { name: 'BÀI 1: AFTER EFFECT', price: '1,200,000 VNĐ', video: './TAINGUYEN/vid2.mp4' }
-    // EDIT HERE: Thêm thông tin khóa học khác
+    // Thêm khóa học mới tại đây
   };
+
   if (courseId && courseData[courseId]) {
     document.getElementById('courseName').textContent = courseData[courseId].name;
     document.getElementById('coursePrice').textContent = courseData[courseId].price;
@@ -39,51 +49,109 @@ function loadPaymentPage() {
   }
 }
 
+// ========================
 // Xử lý đăng ký
-document.getElementById('registerForm')?.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
+// ========================
+// Hàm tạo mật khẩu ngẫu nhiên
+function generateRandomPassword() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+  let password = '';
+  for (let i = 0; i < 6; i++) {
+    password += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return password;
+}
 
-  // Kiểm tra định dạng email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert('Email không hợp lệ! Vui lòng nhập email đúng định dạng.');
-    return;
+// Lấy hệ điều hành & trình duyệt
+function detectDeviceInfo() {
+  const userAgent = navigator.userAgent;
+  let os = "Không xác định";
+
+  if (/Windows NT/.test(userAgent)) os = "Windows";
+  else if (/Mac OS X/.test(userAgent)) os = "macOS";
+  else if (/Android/.test(userAgent)) os = "Android";
+  else if (/iPhone|iPad|iPod/.test(userAgent)) os = "iOS";
+  else if (/Linux/.test(userAgent)) os = "Linux";
+
+  const browser = (() => {
+    if (userAgent.includes("Chrome")) return "Chrome";
+    if (userAgent.includes("Firefox")) return "Firefox";
+    if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) return "Safari";
+    if (userAgent.includes("Edge")) return "Edge";
+    return "Không rõ";
+  })();
+
+  return { os, browser };
+}
+
+// Gửi form đăng ký
+document.getElementById('registerForm')?.addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = generateRandomPassword();
+  const { os, browser } = detectDeviceInfo();
+
+  // Lấy IP máy
+  let ipAddress = 'Không xác định';
+  try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    ipAddress = data.ip;
+  } catch {
+    ipAddress = 'Lỗi khi lấy IP';
   }
 
-  // Tạo mật khẩu ngẫu nhiên
-  const password = generateRandomPassword();
+  const subject = '📩 Đăng ký tài khoản';
+  const body = `
+📩 <b>ĐĂNG KÝ TÀI KHOẢN TRUY CẬP KHÓA HỌC</b>
 
-  // Nội dung email tùy chỉnh
-  const emailSubject = encodeURIComponent('Đăng ký khóa học mới');
-  const emailBody = encodeURIComponent(
-    `Kính gửi Quản trị viên,\n\n` +
-    `Thông tin đăng ký khóa học:\n` +
-    `Họ và tên: ${name}\n` +
-    `Email: ${email}\n` +
-    `Mật khẩu được tạo: ${password}\n\n` +
-    `Vui lòng xác nhận và cung cấp quyền truy cập khóa học.\n` +
-    `Trân trọng,\n${name}`
-  );
-  // EDIT HERE: Thay đổi email nhận (dangnhthu.anhthudang@email.com) và nội dung email nếu cần
-  const mailtoLink = `mailto:dat.dev.vl@email.com?subject=${emailSubject}&body=${emailBody}`;
+🧑‍💻 <b>Thông tin người đăng ký:</b>
+  🔹 <b>Họ và tên:</b> <b>${name}</b>
+  🔹 <b>Email:</b> <b>${email}</b>
+  🔹 <b>Mật khẩu khởi tạo:</b> <b>${password}</b>
 
+🖥️ <b>Thông tin thiết bị:</b>
+  💻 <b>Hệ điều hành:</b> ${os}
+  🌐 <b>Trình duyệt:</b> ${browser}
+  📡 <b>Địa chỉ IP:</b> ${ipAddress}
 
-  // Mở ứng dụng email và hiển thị thông báo
-  window.open(mailtoLink, '_blank');
-  alert(`Gửi Email để đăng kí! Thông tin sẽ được gửi đến ADMIN và phản hồi lại sau giây lát... Vui lòng kiểm tra email ${email} sau khi gửi để chấp thuận tài khoản.`);
+📎 <i>Rất mong Quản trị viên xét duyệt và cấp quyền truy cập sớm nhất.</i>
+
+🙏 <b>Trân trọng cảm ơn!</b>
+— <b>${name}</b>
+  `.trim();
+
+  const encodedSubject = encodeURIComponent(subject);
+  const encodedBody = encodeURIComponent(body.replace(/<b>|<\/b>|<i>|<\/i>/g, '')); // Gmail không nhận HTML qua URL
+
+  const isMobile = /iPhone|iPad|Android|Mobile/i.test(navigator.userAgent);
+  const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=dat.dev.vl@email.com&su=${encodedSubject}&body=${encodedBody}`;
+  const mailtoLink = `mailto:dat.dev.vl@email.com?subject=${encodedSubject}&body=${encodedBody}`;
+
+  if (isMobile) {
+    window.location.href = mailtoLink;
+  } else {
+    const newTab = window.open(gmailURL, '_blank');
+    if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+      alert("⚠️ Trình duyệt đã chặn cửa sổ bật lên. Vui lòng bật lại popup.");
+    }
+  }
+
+  alert("✅ Đã tạo email soạn sẵn! Hãy kiểm tra nội dung và nhấn 'Gửi'.");
 });
 
+// ========================
 // Xử lý đăng nhập
+// ========================
 document.getElementById('loginForm')?.addEventListener('submit', function(e) {
   e.preventDefault();
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  
-  // Kiểm tra tài khoản
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
   const account = accounts.find(acc => acc.username === username && acc.password === password);
-  
+
   if (account) {
     alert('Đăng nhập thành công!');
     window.location.href = 'courses.html';
@@ -92,28 +160,34 @@ document.getElementById('loginForm')?.addEventListener('submit', function(e) {
   }
 });
 
+// ========================
 // Mô phỏng thanh toán
+// ========================
 function simulatePayment() {
-  // EDIT HERE: Thay đổi logic xác nhận thanh toán (cần tích hợp API thanh toán thực tế)
   alert('Xác nhận thanh toán thành công!');
-  document.getElementById('videoLink').classList.remove('hidden');
+  document.getElementById('videoLink')?.classList.remove('hidden');
 }
 
+// ========================
 // Kiểm tra ID khóa học
+// ========================
 function checkCourseId() {
-  const inputId = document.getElementById('courseIdInput').value;
+  const inputId = document.getElementById('courseIdInput').value.trim();
   const urlParams = new URLSearchParams(window.location.search);
   const courseId = urlParams.get('course');
+
   const validCourse = courseIds.find(course => course.course === courseId && course.courseIds.includes(inputId));
-  
+
   if (validCourse) {
-    window.location.href = validCourse.video; // Chuyển hướng đến link video
+    window.location.href = validCourse.video;
   } else {
     alert('ID chưa chính xác!');
   }
 }
 
-// Tải dữ liệu trang thanh toán khi trang được tải
+// ========================
+// Tải dữ liệu khi vào payment.html
+// ========================
 if (window.location.pathname.includes('payment.html')) {
   window.onload = loadPaymentPage;
 }

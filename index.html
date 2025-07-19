@@ -44,7 +44,7 @@
     }
   </style>
 </head>
-<body class="bg-gray-100 font-sans overflow-x-hidden">
+<body style="user-select: none;" class="bg-gray-100 font-sans overflow-x-hidden">
   <!-- Navigation Bar -->
   <nav class="fixed top-0 left-0 w-full z-20 navbar">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -76,7 +76,7 @@
           <div class="absolute inset-0 rounded-full border-4 border-transparent group-hover:border-yellow-300 transition-all duration-500"></div>
         </div>
         <div class="text-left">
-          <h2 class="text-3xl font-bold mb-2">Giảng viên: Đặng Anh Thư</h2>
+          <h2 class="text-3xl font-bold mb-2">Giảng viên: Đặng Anh Thư</h2> //tên giảng viên
           <p class="text-lg mb-2 flex items-center">
             <i class="fas fa-paint-brush mr-2 text-yellow-300"></i> Kinh nghiệm: Editor: 5 năm | Giảng dạy: 3 năm
           </p>
@@ -89,15 +89,15 @@
           </p>
           <p class="text-lg flex items-center mb-2">
             <i class="fas fa-phone-alt mr-2 text-green-400"></i>
-            Số điện thoại: 0783.542.782
+            Số điện thoại: 0783.542.782 //sdt giảng viên
           </p>
           <p class="text-lg flex items-center mb-2">
             <i class="fas fa-comment mr-2 text-green-400"></i>
-            Zalo: 0343.094.018
+            Zalo: 0343.094.018  //Zl giảng viên
           </p>
           <p class="text-lg flex items-center">
             <i class="fas fa-envelope mr-2 text-blue-400"></i>
-            Email: danganhthu.anhthudang@gmail.com
+            Email: danganhthu.anhthudang@gmail.com  //EMAIL giảng viên
           </p>
         </div>
       </div>
@@ -128,7 +128,7 @@
     </div>
   </section>
 
-  <!-- Những Gì Bạn Có Thể Làm Được Section -->
+  <!--THAY POSTE ADS TẠI ĐÂY-->
   <section class="py-16 bg-gray-900 text-white">
     <div class="max-w-6xl mx-auto px-4 text-center">
       <h2 class="text-4xl font-bold mb-12">Đây Sẽ Là Những Gì Bạn Có Thể Làm Được</h2>
@@ -171,10 +171,10 @@
       <h2 class="text-4xl font-bold text-gray-800 mb-12">Công cụ bạn sẽ thành thạo</h2>
       <div class="flex flex-col md:flex-row justify-center gap-8">
         <div class="tool-image">
-          <img src="./data/cc.png" alt="CapCut" class="w-full max-w-sm rounded-lg shadow-lg transform transition-all duration-300">
+          <img src="./data/cc.png" alt="CapCut" draggable="false" class="w-full max-w-sm rounded-lg shadow-lg">
         </div>
         <div class="tool-image">
-          <img src="./data/ae.png" alt="After Effects" class="w-full max-w-sm rounded-lg shadow-lg transform transition-all duration-300">
+          <img src="./data/ae.png" alt="After Effects" draggable="false" class="w-full max-w-sm rounded-lg shadow-lg">
         </div>
       </div>
     </div>
@@ -249,13 +249,12 @@
     </div>
   </footer>
 
+  //script này để bar trong suốt theo nền
   <script>
     const navbar = document.querySelector('.navbar');
     const whiteTriggers = document.querySelectorAll('.trigger-white');
-
     const observer = new IntersectionObserver((entries) => {
       let isInWhite = false;
-
       entries.forEach(entry => {
         // Check if the section is significantly in view (closer to the top)
         if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
@@ -272,8 +271,14 @@
       threshold: 0.5, // Trigger when 50% of the section is in view
       rootMargin: '-80px 0px 0px 0px' // Delay until the section is closer to the top (adjust for navbar height)
     });
-
     whiteTriggers.forEach(el => observer.observe(el));
+  </script>
+
+  //script này để Cấm Phải chuột
+  <script>
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
   </script>
 </body>
 </html>

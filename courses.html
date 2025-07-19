@@ -5,6 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Khóa học - Website Giảng Dạy Khóa Học</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Smooth hover effect for course cards */
+    .course-card {
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .course-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Button hover and click effects */
+    .buy-button {
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .buy-button:hover {
+      transform: scale(1.05); /* Subtle scale on hover */
+      background-color: #16a34a; /* Darker green on hover */
+    }
+    .buy-button:active {
+      background-color: #ef4444; /* Red on click (fallback) */
+    }
+    .buy-button.clicked {
+      background-color: #ef4444; /* Red when clicked */
+    }
+    .buy-button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%) scale(0);
+      border-radius: 50%;
+      transition: transform 0.5s ease;
+    }
+    .buy-button:hover::after {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Ensure images are responsive and maintain aspect ratio */
+    .course-image {
+      width: 100%;
+      height: 12rem; /* Consistent height */
+      object-fit: cover; /* Cover without distortion */
+      object-position: center; /* Center the image */
+    }
+    @media (min-width: 768px) {
+      .course-image {
+        height: 14rem; /* Slightly larger on medium screens and up */
+      }
+    }
+  </style>
 </head>
 <body class="relative font-sans min-h-screen h-full">
   <!-- Ảnh nền toàn màn hình -->
@@ -17,25 +72,40 @@
     <h2 class="text-3xl font-bold text-center mb-8">Danh sách khóa học</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <!-- Khóa học 1 -->
-      <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg overflow-hidden">
-        <img src="./TAINGUYEN/vid1.png" alt="Khóa học 1" class="w-full h-48 object-cover">
+      <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg overflow-hidden course-card">
+        <img src="./TAINGUYEN/vid1.png" alt="Khóa học 1" class="course-image">
         <div class="p-4 text-gray-800">
           <h3 class="text-xl font-bold">Bài 1: Capcut</h3>
           <p class="text-gray-700">Giá: 900,000 VNĐ</p>
-          <a href="payment.html?course=course1" class="mt-4 w-full block bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center">Mua ngay</a>
+          <a href="payment.html?course=course1" class="mt-4 w-full block bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center buy-button">Mua ngay</a>
         </div>
       </div>
       <!-- Khóa học 2 -->
-      <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg overflow-hidden">
-        <img src="./TAINGUYEN/vid2.png" alt="Khóa học 2" class="w-full h-48 object-cover">
+      <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg overflow-hidden course-card">
+        <img src="./TAINGUYEN/vid2.png" alt="Khóa học 2" class="course-image">
         <div class="p-4 text-gray-800">
           <h3 class="text-xl font-bold">Bài 1: After Efect</h3>
           <p class="text-gray-700">Giá: 1,200,000 VNĐ</p>
-          <a href="payment.html?course=course2" class="mt-4 w-full block bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center">Mua ngay</a>
+          <a href="payment.html?course=course2" class="mt-4 w-full block bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center buy-button">Mua ngay</a>
         </div>
       </div>
     </div>
     <p class="mt-8 text-center"><a href="index.html" class="text-blue-200 hover:underline">Quay lại trang chủ</a></p>
   </div>
+
+  <!-- JavaScript for button click effect -->
+  <script>
+    document.querySelectorAll('.buy-button').forEach(button => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent immediate navigation
+        const href = button.getAttribute('href'); // Get the link URL
+        button.classList.add('clicked'); // Apply red color
+        setTimeout(() => {
+          button.classList.remove('clicked'); // Remove red color
+          window.location.href = href; // Navigate to the link
+        }, 300); // Delay navigation by 300ms
+      });
+    });
+  </script>
 </body>
 </html>

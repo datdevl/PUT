@@ -4,72 +4,276 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Website Giảng Dạy Khóa Học</title>
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Font Awesome cho biểu tượng -->
+  <style>
+    .geometric-shape {
+      position: absolute;
+      animation: float 6s ease-in-out infinite;
+    }
+    .shape1 { width: 100px; height: 100px; border-radius: 50%; top: 10%; left: 10%; }
+    .shape2 { width: 150px; height: 150px; border-radius: 20%; top: 60%; left: 20%; }
+    .shape3 { width: 80px; height: 80px; border-radius: 50%; top: 20%; right: 15%; }
+    .shape4 { width: 120px; height: 120px; border-radius: 30%; bottom: 10%; right: 10%; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .course-card, .tool-image { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .course-card:hover, .tool-image:hover { transform: translateY(-10px); box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+    .navbar { 
+      backdrop-filter: blur(10px); 
+      background: rgba(0, 0, 0, 0.2); 
+      transition: background 0.3s ease, box-shadow 0.3s ease; 
+    }
+    .navbar.scrolled { 
+      background: rgba(255, 255, 255, 0.9); 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    }
+    .navbar.scrolled .nav-title { 
+      color: #1f2937; 
+    }
+    .nav-title {
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .nav-title:hover {
+      transform: scale(1.05);
+    }
+  </style>
 </head>
 <body class="bg-gray-100 font-sans overflow-x-hidden">
-  <!-- Trang chủ -->
-  <div id="home" class="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 text-white overflow-hidden">
-    <!-- Hiệu ứng parallax nền với các biểu tượng hình học -->
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full z-20 navbar">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-xl md:text-2xl font-bold nav-title">KHÓA HỌC BẤT ĐỘNG SẢN</h1>
+      <div class="space-x-4">
+        <a href="signin.html" class="inline-block bg-yellow-400 text-gray-800 px-6 py-2 rounded-full text-base font-semibold hover:bg-yellow-500 transition-all duration-300 shadow-md">Đăng ký</a>
+        <a href="login.html" class="inline-block bg-white text-gray-800 px-6 py-2 rounded-full text-base font-semibold hover:bg-gray-200 transition-all duration-300 shadow-md">Đăng nhập</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div id="home" class="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 text-white overflow-hidden pt-20">
+    <!-- Parallax Background -->
     <div class="absolute inset-0 z-0">
       <div class="geometric-shape shape1" style="background: rgba(255, 255, 255, 0.1);"></div>
       <div class="geometric-shape shape2" style="background: rgba(255, 204, 0, 0.2);"></div>
       <div class="geometric-shape shape3" style="border: 2px solid rgba(255, 255, 255, 0.3);"></div>
       <div class="geometric-shape shape4" style="background: rgba(255, 105, 180, 0.2);"></div>
     </div>
-    <div class="relative z-10 text-center px-4">
-      <!-- Ảnh giảng viên -->
-      <div class="relative w-64 h-64 mx-auto mb-8 group">
-        <img src="./data/teacher.jpg" alt="Giảng viên" class="w-full h-full object-cover rounded-full shadow-xl transform transition-all duration-500 group-hover:scale-110 group-hover:shadow-2xl">
-        <div class="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 to-pink-500 opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
-        <div class="absolute inset-0 rounded-full border-4 border-transparent group-hover:border-yellow-300 transition-all duration-500"></div>
+    <div class="relative z-10 text-center px-4 py-16 max-w-6xl mx-auto">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight">Khóa Học Quay Dựng Video Chuyên Nghiệp</h1>
+      <p class="text-xl md:text-2xl mb-8">Cùng Đặng Anh Thư chinh phục kỹ năng chỉnh sửa video với các công cụ hàng đầu!</p>
+      <!-- Teacher Info -->
+      <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-10">
+        <div class="relative w-48 h-48 md:w-64 md:h-64 group">
+          <img src="./data/teacher.jpg" alt="Giảng viên" class="w-full h-full object-cover rounded-full shadow-xl transform transition-all duration-500 group-hover:scale-110 group-hover:shadow-2xl">
+          <div class="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 to-pink-500 opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
+          <div class="absolute inset-0 rounded-full border-4 border-transparent group-hover:border-yellow-300 transition-all duration-500"></div>
+        </div>
+        <div class="text-left">
+          <h2 class="text-3xl font-bold mb-2">Giảng viên: Đặng Anh Thư</h2>
+          <p class="text-lg mb-2 flex items-center">
+            <i class="fas fa-paint-brush mr-2 text-yellow-300"></i> Kinh nghiệm: Editor: 5 năm | Giảng dạy: 3 năm
+          </p>
+          <div class="flex mb-4">
+            <span class="text-yellow-400 text-2xl animate-pulse">★★★★★</span>
+          </div>
+          <p class="text-lg flex items-center mb-2">
+            <i class="fab fa-facebook-f mr-2 text-blue-400"></i>
+            Facebook: <a href="https://facebook.com/td95328" target="_blank" class="underline hover:text-yellow-300 transition">邓英书 (Đặng Anh Thư)</a>
+          </p>
+          <p class="text-lg flex items-center mb-2">
+            <i class="fas fa-phone-alt mr-2 text-green-400"></i>
+            Số điện thoại: 0783.542.782
+          </p>
+          <p class="text-lg flex items-center mb-2">
+            <i class="fas fa-comment mr-2 text-green-400"></i>
+            Zalo: 0343.094.018
+          </p>
+          <p class="text-lg flex items-center">
+            <i class="fas fa-envelope mr-2 text-blue-400"></i>
+            Email: danganhthu.anhthudang@gmail.com
+          </p>
+        </div>
       </div>
-      <!-- Thông tin giảng viên -->
-      <h1 class="text-5xl font-extrabold mb-4 tracking-tight">Giảng viên: Đặng Anh Thư</h1>
-      <!-- EDIT HERE: Thay đổi thông tin giảng viên -->
-      <p class="text-xl mb-4 flex items-center justify-center">
-        <i class="fas fa-paint-brush mr-2 text-yellow-300"></i> Kinh nghiệm: Editor: 5 năm | Giảng dạy: 3 năm
-      </p>
-      <!-- Đánh giá 5 sao -->
-      <div class="flex justify-center mb-6">
-        <span class="text-yellow-400 text-3xl animate-pulse">★★★★★</span>
-      </div>
-      <!-- Thông tin liên hệ -->
-      <div class="space-y-3">
-        <p class="text-lg flex items-center justify-center">
-          <i class="fab fa-facebook-f mr-2 text-blue-400"></i>
-          Facebook: <a href="https://facebook.com/td95328" target="_blank" class="underline hover:text-yellow-300 transition">邓英书 (Đặng Anh Thư)</a> <!-- EDIT HERE: Thay đổi link Facebook -->
-        </p>
-        <p class="text-lg flex items-center justify-center">
-          <i class="fas fa-phone-alt mr-2 text-green-400"></i>
-          Số điện thoại: 0783.542.782 <!-- EDIT HERE: Thay đổi số điện thoại -->
-        </p>
-        <p class="text-lg flex items-center justify-center">
-          <i class="fas fa-phone-alt mr-2 text-green-400"></i>
-          Zalo: 0343.094.018 <!-- EDIT HERE: Thay đổi zalo  -->
-        </p>
-        <p class="text-lg flex items-center justify-center">
-          <i class="fas fa-envelope mr-2 text-red-400"></i>
-          Email: danganhthu.anhthudang@email.com <!-- EDIT HERE: Thay đổi email -->
-        </p>
-        <br>
-      </div>
-      <div style="display:flex;align-items: center; gap: 50px;">
-        <image src="./data/cc.png" style="width: 450px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></image>
-        <image src="./data/ae.png" style="width: 450px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"></image>
-      </div>
-      <!-- Nút điều hướng -->
-      <div class="mt-8 space-x-6">
-        <a href="signin.html" class="inline-block bg-yellow-400 text-gray-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-yellow-500 transform hover:scale-105 transition-all duration-300 shadow-lg">Đăng ký</a>
-        <a href="login.html" class="inline-block bg-white text-gray-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-200 transform hover:scale-105 transition-all duration-300 shadow-lg">Đăng nhập</a>
-      </div>
-      <br><br><br><br>
     </div>
   </div>
-  <footer>
-    <h6 style="text-align: center;background-color: black; color:aliceblue"> Codding by Đạt Dê Vờ Lờ</h6>
+
+  <!-- Course Highlights Section -->
+  <section class="trigger-white bg-white py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">Điểm nổi bật của khóa học</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="course-card bg-gray-50 p-6 rounded-lg shadow-md text-center">
+          <i class="fas fa-video text-4xl text-blue-500 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Học thực chiến</h3>
+          <p class="text-gray-600">Thực hành quay và chỉnh sửa video với các dự án thực tế, từ cơ bản đến nâng cao.</p>
+        </div>
+        <div class="course-card bg-gray-50 p-6 rounded-lg shadow-md text-center">
+          <i class="fas fa-chalkboard-teacher text-4xl text-blue-500 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Hướng dẫn tận tâm</h3>
+          <p class="text-gray-600">Được giảng viên Đặng Anh Thư đồng hành, giải đáp chi tiết mọi thắc mắc.</p>
+        </div>
+        <div class="course-card bg-gray-50 p-6 rounded-lg shadow-md text-center">
+          <i class="fas fa-certificate text-4xl text-blue-500 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Chứng chỉ hoàn thành</h3>
+          <p class="text-gray-600">Nhận chứng chỉ sau khi hoàn thành khóa học, nâng cao giá trị hồ sơ cá nhân.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Những Gì Bạn Có Thể Làm Được Section -->
+  <section class="py-16 bg-gray-900 text-white">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-4xl font-bold mb-12">Đây Sẽ Là Những Gì Bạn Có Thể Làm Được</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
+        <!-- Card 1 -->
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform">
+          <img src="./data/put.png" alt="Ảnh 1" class="w-full h-64 object-cover">
+          <div class="p-4 text-left text-sm">
+            Quay chụp hình và tạo ra những hình ảnh hoàn hảo để quảng cáo, giới thiệu về sản phẩm như: Thời trang, mỹ phẩm, ẩm thực, quán áo...
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform">
+          <img src="./data/put.png" alt="Ảnh 2" class="w-full h-64 object-cover">
+          <div class="p-4 text-left text-sm">
+            Video Tiktok triệu view để bứt phá doanh thu, gia tăng số lượng đơn hàng trong thời gian ngắn với chi phí 0 đồng
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform">
+          <img src="./data/put.png" alt="Ảnh 3" class="w-full h-64 object-cover">
+          <div class="p-4 text-left text-sm">
+            Video quảng cáo chuyên nghiệp, thu hút để chạy quảng cáo Facebook, Youtube, Instagram, Tiktok...
+          </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform">
+          <img src="./data/put.png" alt="Ảnh 4" class="w-full h-64 object-cover">
+          <div class="p-4 text-left text-sm">
+            Video Lookbook thời trang kết hợp hiệu ứng, kỹ xảo độc đáo, chuyên cảm xúc mượt mà như xem phim
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools Section -->
+  <section class="trigger-white bg-gray-100 py-16">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-4xl font-bold text-gray-800 mb-12">Công cụ bạn sẽ thành thạo</h2>
+      <div class="flex flex-col md:flex-row justify-center gap-8">
+        <div class="tool-image">
+          <img src="./data/cc.png" alt="CapCut" class="w-full max-w-sm rounded-lg shadow-lg transform transition-all duration-300">
+        </div>
+        <div class="tool-image">
+          <img src="./data/ae.png" alt="After Effects" class="w-full max-w-sm rounded-lg shadow-lg transform transition-all duration-300">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-8">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-start gap-8">
+      <!-- Column 1: HỖ TRỢ KHÁCH HÀNG -->
+      <div class="flex-1">
+        <h3 class="text-lg font-semibold mb-4">HỖ TRỢ KĨ THUẬT KHÁCH HÀNG</h3>
+        <ul class="space-y-2 text-sm">
+          <li>Email: dat.dev.vl@gmail.com</li>
+          <li>Hotline: 0345 335 303</li>
+          <li>Thứ Hai đến Thứ Bảy: 8h30 - 24h</li>
+          <li>Chủ Nhật: 12h - 24h</li>
+        </ul>
+      </div>
+
+      <!-- Column 2: VỀ P-EDIT -->
+      <div class="flex-1">
+        <h3 class="text-lg font-semibold mb-4">VỀ P-EDIT</h3>
+        <ul class="space-y-2 text-sm">
+          <li>Giới thiệu về P-EDIT</li>
+          <li>Tuyển dụng giảng viên</li>
+          <li>Tuyển dụng nhân sự</li>
+          <li>Chính sách bảo mật thông tin</li>
+          <li>Quy định mua, sử dụng khóa học</li>
+          <li>Bộ quy tắc hoạt động giảng viên tại P-Edit</li>
+        </ul>
+      </div>
+
+      <!-- Column 3: HỢP TÁC VÀ LIÊN KẾT -->
+      <div class="flex-1">
+        <h3 class="text-lg font-semibold mb-4">HỢP TÁC VÀ LIÊN KẾT</h3>
+        <ul class="space-y-2 text-sm">
+          <li>Đăng ký P-Edit</li>
+          <li>Đăng ký làm đối tác</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Section: Social Media, App Links, and Certification -->
+    <div class="max-w-6xl mx-auto px-4 mt-8 flex flex-col md:flex-row justify-between items-center border-t border-gray-700 pt-4">
+      <!-- Logo and Social Media -->
+      <div class="flex items-center space-x-4 mb-4 md:mb-0">
+        <div class="text-2xl font-bold text-pink-500">P-Edit</div>
+        <p class="text-sm">Kết nối với chúng tôi</p>
+        <div class="flex space-x-2">
+          <a href="https://facebook.com/td95328" target="_blank" class="hover:text-blue-500 transition-colors duration-300"><i class="fab fa-facebook-f text-blue-400"></i></a>
+          <a href="https://instagram.com/td95328" target="_blank" class="hover:text-pink-500 transition-colors duration-300"><i class="fab fa-instagram text-pink-400"></i></a>
+          <a href="https://youtube.com/td95328" target="_blank" class="hover:text-red-500 transition-colors duration-300"><i class="fab fa-youtube text-red-400"></i></a>
+        </div>
+      </div>
+
+      <!-- App Download Links -->
+      <div class="flex space-x-4 mb-4 md:mb-0">
+        <i>Buiding...</i>
+        <a href="#" class="flex items-center bg-black text-white px-3 py-2 rounded-lg">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="App Store" class="h-6 mr-2">
+          App Store
+        </a>
+        <a href="#" class="flex items-center bg-black text-white px-3 py-2 rounded-lg">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" class="h-6 mr-2">
+          Google Play
+        </a>
+      </div>
+      <div>
+        <hr>
+        <p>Copyright 2025 © P-Edit. All rights reserved</p>
+      </div>
+    </div>
   </footer>
-  <script src="script.js"></script>
+
+  <script>
+    const navbar = document.querySelector('.navbar');
+    const whiteTriggers = document.querySelectorAll('.trigger-white');
+
+    const observer = new IntersectionObserver((entries) => {
+      let isInWhite = false;
+
+      entries.forEach(entry => {
+        // Check if the section is significantly in view (closer to the top)
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          isInWhite = true;
+        }
+      });
+
+      if (isInWhite) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    }, { 
+      threshold: 0.5, // Trigger when 50% of the section is in view
+      rootMargin: '-80px 0px 0px 0px' // Delay until the section is closer to the top (adjust for navbar height)
+    });
+
+    whiteTriggers.forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>

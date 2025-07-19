@@ -2,23 +2,67 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Đăng ký - Website Giảng Dạy Khóa Học</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      overflow: hidden;
+    }
+    .background-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 2880px; /* Double the viewBox width for seamless looping */
+      height: 150px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2880 150'%3E%3Cpath fill='%23ffffff' fill-opacity='0.3' d='M0,100 C200,50 400,150 600,100 C800,50 1000,150 1200,100 C1400,50 1600,150 1800,100 C2000,50 2200,150 2400,100 C2600,50 2800,150 2880,100 V150 H0 Z M0,120 C200,70 400,170 600,120 C800,70 1000,170 1200,120 C1400,70 1600,170 1800,120 C2000,70 2200,170 2400,120 C2600,70 2800,170 2880,120 V150 H0 Z'/%3E%3Cpath fill='%23ff4500' fill-opacity='0.5' d='M0,90 Q200,40 400,90 T600,90 T800,40 T1000,90 T1200,40 T1400,90 T1600,40 T1800,90 T2000,40 T2200,90 T2400,40 T2600,90 T2800,40 L2880,90 V150 H0 Z'/%3E%3Ccircle cx='300' cy='80' r='20' fill='%23ff4500'/%3E%3Ccircle cx='1500' cy='80' r='20' fill='%23ff4500'/%3E%3Cpath d='M350,60 Q400,30 450,60 T550,60 T650,30 T750,60 M1550,60 Q1600,30 1650,60 T1750,60 T1850,30 T1950,60' stroke='%23ff4500' stroke-width='5' fill='none'/%3E%3C/svg>") repeat-x;
+      animation: wave 14s infinite linear; /* Doubled duration to match width */
+    }
+    @keyframes wave {
+      from { transform: translateX(0); }
+      to { transform: translateX(-1440px); } /* Half the width for smooth loop */
+    }
+    .form-container {
+      animation: fadeIn 0.6s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #ffffff;
+      border-radius: 50%;
+      animation: burst 1.5s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes burst {
+      0% { transform: scale(0) translate(0, 0); opacity: 1; }
+      100% { transform: scale(2) translate(0, -50px); opacity: 0; }
+    }
+  </style>
 </head>
 <body class="relative font-sans min-h-screen">
-
   <!-- Ảnh nền toàn màn hình -->
   <div class="absolute inset-0">
     <img src="./data/bg-signin.png" 
          alt="bg-signin" 
          class="w-full h-full object-cover brightness-75" />
+    <div class="background-overlay"></div>
+    <div class="wave"></div>
   </div>
 
   <!-- Form đăng ký nổi lên -->
   <div class="relative z-10 flex items-center justify-center min-h-screen">
-    <div class="bg-white/80 p-8 rounded-lg shadow-lg w-full max-w-md backdrop-blur-md">
+    <div class="form-container bg-white/80 p-8 rounded-lg shadow-lg w-full max-w-md backdrop-blur-md">
       <h2 class="text-2xl font-bold mb-6 text-center">Đăng ký tài khoản</h2>
       <form id="registerForm">
         <div class="mb-4">
@@ -37,5 +81,36 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const formContainer = document.querySelector('.form-container');
+      setTimeout(() => formContainer.style.opacity = 1, 100); // Delay for fade-in
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const button = this.querySelector('button');
+      const formRect = button.getBoundingClientRect();
+      const container = document.querySelector('.relative.z-10');
+      
+      // Create particle burst
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        const angle = (i / 20) * 2 * Math.PI;
+        const x = Math.cos(angle) * 20;
+        const y = Math.sin(angle) * 20;
+        particle.style.left = `${formRect.left + formRect.width / 2 + x}px`;
+        particle.style.top = `${formRect.top + formRect.height / 2 + y}px`;
+        container.appendChild(particle);
+      }
+
+      // Simulate submission
+      setTimeout(() => {
+        alert('Đăng ký thành công!');
+        document.querySelectorAll('.particle').forEach(p => p.remove());
+      }, 1500);
+    });
+  </script>
 </body>
 </html>

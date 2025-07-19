@@ -6,6 +6,38 @@
   <title>Đăng nhập - Website Giảng Dạy Khóa Học</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      overflow: hidden;
+    }
+    .background-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .bubble, .geometric-shape {
+      position: absolute;
+      animation: float 10s infinite ease-in-out;
+      opacity: 0.6;
+    }
+    .bubble {
+      border-radius: 50%;
+      background: rgba(255, 255, 6, 0.852);
+    }
+    .bubble-1 { width: 20px; height: 20px; top: 15%; left: 10%; }
+    .bubble-2 { width: 30px; height: 30px; top: 70%; right: 15%; }
+    .bubble-3 { width: 15px; height: 15px; top: 30%; left: 25%; }
+    .geometric-shape {
+      background: rgb(183, 255, 0);
+    }
+    .shape-1 { width: 40px; height: 40px; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); top: 10%; right: 20%; }
+    .shape-2 { width: 50px; height: 50px; clip-path: circle(50% at 50% 50%); top: 60%; left: 15%; }
+    .shape-3 { width: 30px; height: 30px; clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); top: 40%; right: 10%; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-50px) rotate(180deg); }
+    }
+  </style>
 </head>
 <body class="relative font-sans min-h-screen">
   <!-- Ảnh nền toàn màn hình -->
@@ -13,6 +45,17 @@
     <img src="./data/bg-login.png" 
          alt="bg-login" 
          class="w-full h-full object-cover brightness-75" />
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Hiệu ứng bọt biển và hình học -->
+  <div class="absolute inset-0 z-0">
+    <div class="bubble bubble-1"></div>
+    <div class="bubble bubble-2"></div>
+    <div class="bubble bubble-3"></div>
+    <div class="geometric-shape shape-1"></div>
+    <div class="geometric-shape shape-2"></div>
+    <div class="geometric-shape shape-3"></div>
   </div>
 
   <!-- Form đăng nhập nổi lên trên ảnh nền -->
@@ -38,5 +81,4 @@
 
   <script src="script.js"></script>
 </body>
-
 </html>

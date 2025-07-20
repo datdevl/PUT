@@ -1,8 +1,11 @@
-// ========================
-// Danh sách tài khoản
-// ========================
+// ========================================
+// Danh sách tài khoản người dùng
+// ========================================
 let accounts = [];
 
+// ========================================
+// Hàm tải danh sách tài khoản từ Google Sheet
+// ========================================
 async function fetchAccountsFromGoogleSheet() {
   const url = 'https://docs.google.com/spreadsheets/d/1sI6e6ZSoDGEHfsww0AqYI3q6MbCSKmTa4r233qYJTiI/export?format=csv';
   try {
@@ -20,9 +23,9 @@ async function fetchAccountsFromGoogleSheet() {
   }
 }
 
-// ========================
+// ========================================
 // Biến toàn cục lưu thông tin khóa học
-// ========================
+// ========================================
 let globalData = {
   names: [],
   prices: [],
@@ -32,6 +35,9 @@ let globalData = {
 };
 let dataReady = false;
 
+// ========================================
+// Hàm tạo mật khẩu ngẫu nhiên
+// ========================================
 function generateRandomPassword() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
   let password = '';
@@ -41,6 +47,9 @@ function generateRandomPassword() {
   return password;
 }
 
+// ========================================
+// Hàm tải dữ liệu khóa học từ file QUANLI.txt
+// ========================================
 async function loadCourseData() {
   const res = await fetch('./QUANLI.txt');
   const text = await res.text();
@@ -81,11 +90,17 @@ async function loadCourseData() {
   }
 }
 
+// ========================================
+// Hàm mô phỏng thanh toán và hiển thị input ID
+// ========================================
 function simulatePayment() {
   alert('QTV đã cấp ID cho học viên, vui lòng nhập ID để bắt đầu !');
   document.getElementById('videoLink')?.classList.remove('hidden');
 }
 
+// ========================================
+// Hàm kiểm tra ID khóa học
+// ========================================
 function checkCourseId() {
   if (!dataReady) {
     alert('⏳ Vui lòng đợi dữ liệu tải xong rồi thử lại.');
@@ -115,6 +130,9 @@ function checkCourseId() {
   alert('❌ ID chưa chính xác!');
 }
 
+// ========================================
+// Hàm phát hiện thông tin thiết bị
+// ========================================
 function detectDeviceInfo() {
   const userAgent = navigator.userAgent;
   let os = "Không xác định";
@@ -135,16 +153,18 @@ function detectDeviceInfo() {
   return { os, browser };
 }
 
+// ========================================
+// Hàm gửi dữ liệu đăng ký đến Google Form
+// ========================================
 async function submitToGoogleForm(contact, password, name) {
   const webAppURL = 'https://script.google.com/macros/s/AKfycbyTGDxYZ_frQHHLEh2FjVJ3S3RogDfRxAJACdoYGgjaDhLCpqp_pMix0WefFecimte7/exec';
   
-  // Gửi dữ liệu dưới dạng tham số URL
   const url = `${webAppURL}?contact=${encodeURIComponent(contact)}&password=${encodeURIComponent(password)}&name=${encodeURIComponent(name)}`;
   
   try {
     const response = await fetch(url, {
-      method: 'POST', // Dùng POST để tương thích với doPost
-      mode: 'no-cors' // Bỏ qua lỗi CORS nếu cần
+      method: 'POST',
+      mode: 'no-cors'
     });
     console.log('Dữ liệu đã gửi thành công:', { contact, password, name });
   } catch (error) {
@@ -152,6 +172,9 @@ async function submitToGoogleForm(contact, password, name) {
   }
 }
 
+// ========================================
+// Xử lý sự kiện đăng ký
+// ========================================
 let submitted = false;
 
 const registerForm = document.getElementById('registerForm');
@@ -194,9 +217,9 @@ if (registerForm) {
   });
 }
 
-// ========================
-// Xử lý đăng nhập từ Google Sheet
-// ========================
+// ========================================
+// Xử lý sự kiện đăng nhập
+// ========================================
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
   loginForm.addEventListener('submit', async function(e) {
@@ -216,6 +239,9 @@ if (loginForm) {
   });
 }
 
+// ========================================
+// Tải dữ liệu khóa học khi vào trang thanh toán
+// ========================================
 if (window.location.pathname.includes('payment.html')) {
   window.onload = loadCourseData;
 }

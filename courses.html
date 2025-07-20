@@ -6,7 +6,9 @@
   <title>Khóa học - Website Giảng Dạy Khóa Học</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Smooth hover effect for course cards */
+    /* ========================================
+       Hiệu ứng hover mượt mà cho thẻ khóa học
+       ======================================== */
     .course-card {
       transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
@@ -15,21 +17,23 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
 
-    /* Button hover and click effects */
+    /* ========================================
+       Hiệu ứng hover và click cho nút mua
+       ======================================== */
     .buy-button {
       position: relative;
       overflow: hidden;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
     .buy-button:hover {
-      transform: scale(1.05); /* Subtle scale on hover */
-      background-color: #16a34a; /* Darker green on hover */
+      transform: scale(1.05);
+      background-color: #16a34a;
     }
     .buy-button:active {
-      background-color: #ef4444; /* Red on click (fallback) */
+      background-color: #ef4444;
     }
     .buy-button.clicked {
-      background-color: #ef4444; /* Red when clicked */
+      background-color: #ef4444;
     }
     .buy-button::after {
       content: '';
@@ -47,77 +51,100 @@
       transform: translate(-50%, -50%) scale(1);
     }
 
-    /* Ensure images are responsive and maintain aspect ratio */
+    /* ========================================
+       Đảm bảo hình ảnh khóa học responsive
+       ======================================== */
     .course-image {
       width: 100%;
-      height: 12rem; /* Consistent height */
-      object-fit: cover; /* Cover without distortion */
-      object-position: center; /* Center the image */
+      height: 12rem;
+      object-fit: cover;
+      object-position: center;
     }
     @media (min-width: 768px) {
       .course-image {
-        height: 14rem; /* Slightly larger on medium screens and up */
+        height: 14rem;
       }
+    }
+
+    /* ========================================
+       Kiểu dáng cho đánh giá sao
+       ======================================== */
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .star {
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    .star.full {
+      color: #FFD700; /* Vàng đậm cho sao đầy */
+    }
+    .star.half {
+      color: rgba(255, 215, 0, 0.3); /* Vàng nhạt cho sao nửa */
+    }
+    .star.empty {
+      color: rgba(255, 215, 0, 0.1); /* Vàng rất nhạt cho sao rỗng */
+    }
+    .star:hover,
+    .star:hover ~ .star {
+      color: rgba(255, 215, 0, 0.5); /* Hiệu ứng hover nhạt */
     }
   </style>
 </head>
-<body class="font-sans relative min-h-screen">  <!-- cuộn không thay đổi bg-->
-  <!-- Nền phủ toàn bộ trang và cuộn theo nội dung -->
+<body class="font-sans relative min-h-screen">
+  <!-- ========================================
+       Nền phủ toàn bộ trang và cuộn theo nội dung
+       ======================================== -->
   <div class="fixed top-0 left-0 w-full h-full -z-10">
     <img src="./data/bg-couses.png" alt="Ảnh nền" class="w-full h-full object-cover brightness-75">
   </div>
 
-  <!-- Nội dung chính -->
+  <!-- ========================================
+       Nội dung chính của trang danh sách khóa học
+       ======================================== -->
   <div class="container mx-auto p-8 text-white">
     <p class="text-3xl font-bold text-center mb-8">DANH SÁCH KHÓA HỌC</p>
-    <!--<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-       Khóa học 1 --
-      <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg overflow-hidden course-card">
-        <img src="./TAINGUYEN/vid1.png" alt="Khóa học 1" class="course-image">
-        <div class="p-4 text-gray-800">
-          <h3 class="text-xl font-bold">Bài 1: Capcut</h3>
-          <p class="text-gray-700">Giá: 900,000 VNĐ</p>
-          <a href="payment.html?course=course1" class="mt-4 w-full block bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center buy-button">Mua ngay</a>
-        </div>
-      </div>
-      <!-- Khóa học 2 
-      <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg overflow-hidden course-card">
-        <img src="./TAINGUYEN/vid2.png" alt="Khóa học 2" class="course-image">
-        <div class="p-4 text-gray-800">
-          <h3 class="text-xl font-bold">Bài 1: After Efect</h3>
-          <p class="text-gray-700">Giá: 1,200,000 VNĐ</p>
-          <a href="payment.html?course=course2" class="mt-4 w-full block bg-green-500 text-white p-2 rounded hover:bg-green-600 text-center buy-button">Mua ngay</a>
-        </div>
-      </div> -->
-      <!-- Thay vì grid chứa cứng khóa học, bạn để: -->
-       <!-- NHAP KHOA HOC-->
+    <!-- ========================================
+         Container để hiển thị danh sách khóa học
+         ======================================== -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="courseContainer"></div>
-      
-    </div>
+    <!-- ========================================
+         Liên kết quay lại trang chủ
+         ======================================== -->
     <p class="mt-8 text-center"><a href="index.html" class="text-blue-200 hover:underline">Quay lại trang chủ</a></p>
   </div>
 
-  <!-- JavaScript for button click effect -->
+  <!-- ========================================
+       Script xử lý hiệu ứng click cho nút mua
+       ======================================== -->
   <script>
     document.querySelectorAll('.buy-button').forEach(button => {
       button.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevent immediate navigation
-        const href = button.getAttribute('href'); // Get the link URL
-        button.classList.add('clicked'); // Apply red color
+        event.preventDefault();
+        const href = button.getAttribute('href');
+        button.classList.add('clicked');
         setTimeout(() => {
-          button.classList.remove('clicked'); // Remove red color
-          window.location.href = href; // Navigate to the link
-        }, 300); // Delay navigation by 300ms
+          button.classList.remove('clicked');
+          window.location.href = href;
+        }, 300);
       });
     });
   </script>
 
-    <!--script này để Cấm Phải chuột-->
+  <!-- ========================================
+       Script vô hiệu hóa chuột phải
+       ======================================== -->
   <script>
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();
     });
   </script>
+  <!-- ========================================
+       Script tải danh sách khóa học
+       ======================================== -->
   <script src="script-course-loader.js"></script>
 </body>
 </html>

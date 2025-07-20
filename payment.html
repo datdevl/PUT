@@ -7,25 +7,29 @@
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-
+    /* ========================================
+       Cấu hình cơ bản cho HTML và body
+       ======================================== */
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow-x: hidden;
     }
-    /* Coin and Dollar Animation Styles */
+    /* ========================================
+       Hiệu ứng cho icon đồng xu và đô la
+       ======================================== */
     .coin, .dollar {
       position: absolute;
       font-size: 2rem;
-      z-index: -5; /* Behind form, above background image */
-      pointer-events: none; /* Prevent interaction */
+      z-index: -5;
+      pointer-events: none;
     }
     .coin {
-      color: #FFD700; /* Gold for coins */
+      color: #FFD700;
     }
     .dollar {
-      color: #00FF00; /* Green for dollars */
+      color: #00FF00;
     }
     .coin, .dollar {
       animation: fade-sway 5s ease-in-out infinite;
@@ -37,14 +41,16 @@
       }
       50% { 
         opacity: 0.7; 
-        transform: translate(8px, -8px); /* Gentle sway */
+        transform: translate(8px, -8px);
       }
       100% { 
         opacity: 0.2; 
         transform: translate(0, 0); 
       }
     }
-    /* Scatter coins and dollars with spaced-out positions and delays */
+    /* ========================================
+       Vị trí và độ trễ cho icon đồng xu và đô la
+       ======================================== */
     .coin:nth-child(1) { left: 2%; top: 5%; animation-delay: 0s; }
     .coin:nth-child(2) { left: 8%; top: 15%; animation-delay: 0.2s; }
     .coin:nth-child(3) { left: 14%; top: 25%; animation-delay: 0.4s; }
@@ -88,10 +94,15 @@
   </style>
 </head>
 <body class="bg-gray-100 font-sans">
+  <!-- ========================================
+       Ảnh nền cố định toàn màn hình
+       ======================================== -->
   <div class="fixed inset-0 -z-10">
     <img src="./data/bg-pay.png" alt="bg-pay" class="w-full h-full object-cover brightness-75">
   </div>
-  <!-- Animated Coin and Dollar Icons -->
+  <!-- ========================================
+       Hiệu ứng icon đồng xu và đô la
+       ======================================== -->
   <div class="coin">🪙</div>
   <div class="coin">🪙</div>
   <div class="dollar">$</div>
@@ -112,29 +123,42 @@
   <div class="coin">🪙</div>
   <div class="coin">🪙</div>
   <div class="dollar">$</div>
+  <!-- ========================================
+       Form thanh toán chính
+       ======================================== -->
   <div class="min-h-screen flex items-center justify-center">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
       <h2 class="text-2xl font-bold mb-6 text-center">THANH TOÁN KHÓA HỌC</h2>
       <p class="text-lg mb-4"><strong>KHÓA HỌC -</strong> <span id="courseName"></span></p>
       <p class="text-lg mb-4"><strong>SỐ TIỀN: </strong><u><span id="coursePrice"></span></u></p>
-      <h6 style="color:red">Lưu ý: ID được cấp có giá trị vĩnh viễn nên có thể truy cập mọi lúc bằng ID đó!!! </h6>
+      <h6 style="color:red">Lưu ý: ID được cấp có giá trị vĩnh viễn nên có thể truy cập mọi lúc bằng ID đó!!!</h6>
       <img src="./data/qr.png" alt="Mã QR thanh toán" class="w-48 h-48 mx-auto mb-4">
       <h2 class="text-center mb-4">Nội dung chuyển khoản: <br><mark><i><b>Thanh toán</b> <span id="courseId"></span></i></mark></h2>
       <p class="text-center mb-4">Vui lòng chụp bill giao dịch gửi qua Zalo: <u><b>0343.094.018</b></u> để được cấp ID 'Khóa Học'.</p>
-      <!-- Input ID và nút Gửi -->
+      <!-- ========================================
+           Input ID và nút gửi
+           ======================================== -->
       <p id="videoLink" class="text-center hidden">
         <input id="courseIdInput" type="text" placeholder="NHẬP ID KHÓA HỌC ✍️" style="border: 5px dotted black; padding: 8px; width: 200px; margin-right: 8px;">
         <button onclick="checkCourseId()" style="background-color: #3b82f6; color: white; padding: 8px 16px; border-radius: 4px; border: none; cursor: pointer;">Gửi</button>
-        <!-- Verify email-sending functionality in script.js for checkCourseId() -->
       </p>
+      <!-- ========================================
+           Nút xác nhận thanh toán
+           ======================================== -->
       <button onclick="simulatePayment()" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Xác nhận thanh toán | Nhập ID</button>
-      <!-- Verify email-sending functionality in script.js for simulatePayment() -->
+      <!-- ========================================
+           Liên kết quay lại danh sách khóa học
+           ======================================== -->
       <p class="mt-2 text-center"><a href="courses.html" class="text-blue-500 hover:underline">Quay lại danh sách khóa học</a></p>
     </div>
   </div>
+  <!-- ========================================
+       Script xử lý logic thanh toán
+       ======================================== -->
   <script src="script.js"></script>
-
-        <!--script này để Cấm Phải chuột-->
+  <!-- ========================================
+       Script vô hiệu hóa chuột phải
+       ======================================== -->
   <script>
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault();

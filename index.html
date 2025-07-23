@@ -151,8 +151,90 @@
           <p class="text-gray-600">Nhận chứng chỉ sau khi hoàn thành khóa học, nâng cao giá trị hồ sơ cá nhân.</p>
         </div>
       </div>
+
+      <!-- VIDEO LED KHÔNG LÀM ĐỔI MÀU VIDEO + TỰ PHÁT + TỰ BẬT ÂM -->
+      <div class="mt-16 flex justify-center">
+        <div class="video-led-outer relative p-2 rounded-xl">
+          <div class="video-led-inner absolute inset-0 z-0 rounded-xl animate-pulse-led pointer-events-none"></div>
+          <div class="relative z-10 rounded-xl overflow-hidden bg-black">
+            <iframe
+              id="autoPlayVideo"
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/kitt3zUJoxw?enablejsapi=1&rel=0"
+              title="Video YouTube"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              class="rounded-xl"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS + JS bên trong section -->
+      <style>
+        .video-led-outer {
+          position: relative;
+        }
+
+        .video-led-inner {
+          background: conic-gradient(from 0deg, #00f, #0ff, #0f0, #ff0, #f00, #00f);
+          filter: blur(6px);
+          animation: rotateHue 5s linear infinite;
+        }
+
+        @keyframes rotateHue {
+          0% {
+            filter: hue-rotate(0deg) blur(6px);
+          }
+          100% {
+            filter: hue-rotate(360deg) blur(6px);
+          }
+        }
+
+        .animate-pulse-led {
+          animation: rotateHue 5s linear infinite;
+        }
+      </style>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const videoFrame = document.getElementById("autoPlayVideo");
+
+          const observer = new IntersectionObserver(
+            entries => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  videoFrame.contentWindow.postMessage(
+                    JSON.stringify({
+                      event: "command",
+                      func: "unMute",
+                      args: []
+                    }),
+                    "*"
+                  );
+                  videoFrame.contentWindow.postMessage(
+                    JSON.stringify({
+                      event: "command",
+                      func: "playVideo",
+                      args: []
+                    }),
+                    "*"
+                  );
+                }
+              });
+            },
+            { threshold: 0.6 }
+          );
+
+          observer.observe(videoFrame);
+        });
+      </script>
     </div>
   </section>
+
+
 
   <!-- ========================================
        Phần quảng cáo kỹ năng sau khóa học

@@ -23,12 +23,12 @@ ID_money[
 15.000 VNĐ
 50.000 VNĐ
 Miễn Phí
-10.000 VNĐ
+20.000 VNĐ
 ]
 
 ID_courses[
 TD0001
 DL2007
 OT
-bientap
+BT20K
 ]

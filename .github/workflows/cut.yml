@@ -1,35 +1,37 @@
-name: Compress and upload MP4 from Google Drive
+name: Download and Move Video to TAINGUYEN
 
 on:
   workflow_dispatch:
 
 jobs:
-  download-compress-upload:
+  fetch-move:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Install gdown and ffmpeg
         run: |
           pip install gdown
-          sudo apt update && sudo apt install -y ffmpeg
+          sudo apt update
+          sudo apt install -y ffmpeg
 
-      - name: Download raw video from Google Drive
+      - name: Download video from Google Drive
         run: |
-          mkdir -p videos/original
-          gdown --id 1-EWktt7o4StoHr4Lt1nVC2pSVyHHVrxt -O videos/original/video_raw.mp4
+          mkdir -p temp
+          # Thay ID bằng ID đúng của file bạn muốn tải
+          gdown --id 1-EWktt7o4StoHr4Lt1nVC2pSVyHHVrxt -O temp/input.mp4
 
-      - name: Compress video to MP4
+      - name: Compress video (still MP4)
         run: |
-          mkdir -p videos/compressed
-          ffmpeg -i videos/original/video_raw.mp4 -vcodec libx264 -acodec aac -crf 30 -preset fast videos/compressed/video_small.mp4
+          mkdir -p TAINGUYEN
+          ffmpeg -i temp/input.mp4 -vcodec libx264 -acodec aac -crf 30 -preset fast TAINGUYEN/bientapvideo.mp4
 
-      - name: Commit and push compressed MP4
+      - name: Commit and push
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add videos/compressed/video_small.mp4
-          git commit -m "Add compressed MP4 from Google Drive"
+          git add TAINGUYEN/bientapvideo.mp4
+          git commit -m "Add processed video to TAINGUYEN"
           git push

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Website Giảng Dạy Khóa Học</title>
+  <link rel="icon" type="image/png" href="./data/logo.png">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -147,30 +148,77 @@
         </div>
         <div class="course-card bg-gray-50 p-6 rounded-lg shadow-md text-center">
           <i class="fas fa-certificate text-4xl text-blue-500 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">Chứng chỉ hoàn thành</h3>
-          <p class="text-gray-600">Nhận chứng chỉ sau khi hoàn thành khóa học, nâng cao giá trị hồ sơ cá nhân.</p>
+          <h3 class="text-xl font-semibold mb-2">Nâng cao kĩ năng</h3>
+          <p class="text-gray-600">kĩ năng edit cải thiện, nâng cao sau khi học các khóa học.</p>
         </div>
       </div>
 
       <!-- VIDEO LED KHÔNG LÀM ĐỔI MÀU VIDEO + TỰ PHÁT + TỰ BẬT ÂM -->
-      <div class="mt-16 flex justify-center">
-        <div class="video-led-outer relative p-2 rounded-xl">
+      <!-- HTML -->
+      <div class="mt-16 flex justify-center px-4">
+        <div class="video-led-outer relative w-full max-w-2xl rounded-xl p-2">
           <div class="video-led-inner absolute inset-0 z-0 rounded-xl animate-pulse-led pointer-events-none"></div>
-          <div class="relative z-10 rounded-xl overflow-hidden bg-black">
+          <div class="relative z-10 overflow-hidden rounded-xl bg-black pb-[56.25%] h-0">
             <iframe
               id="autoPlayVideo"
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/kitt3zUJoxw?enablejsapi=1&rel=0"
-              title="Video YouTube"
+              class="absolute top-0 left-0 w-full h-full rounded-xl"
+              src="https://www.youtube.com/embed/kitt3zUJoxw?enablejsapi=1&rel=0&playsinline=1"
+              title="YouTube video"
               frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="autoplay; encrypted-media"
               allowfullscreen
-              class="rounded-xl"
+              loading="eager"
             ></iframe>
           </div>
         </div>
       </div>
+
+      <!-- JS -->
+      <script>
+        // Load YouTube API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
+
+        let player;
+        function onYouTubeIframeAPIReady() {
+          player = new YT.Player('autoPlayVideo', {
+            events: {
+              onReady: function (event) {
+                observeVideo(event.target);
+              }
+            }
+          });
+        }
+
+        function observeVideo(player) {
+          const videoElement = document.getElementById('autoPlayVideo');
+          
+          // Tạo Intersection Observer
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  // Video nằm trong viewport
+                  player.unMute(); // Bật âm thanh
+                  player.playVideo(); // Phát video
+                } else {
+                  // Video rời khỏi viewport
+                  player.pauseVideo(); // Tạm dừng video
+                }
+              });
+            },
+            {
+              threshold: 0.5 // Kích hoạt khi 50% video xuất hiện trong viewport
+            }
+          );
+
+          // Quan sát iframe
+          observer.observe(videoElement);
+        }
+      </script>
+
+
 
       <!-- CSS + JS bên trong section -->
       <style>

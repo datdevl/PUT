@@ -1,150 +1,214 @@
 <!DOCTYPE html>
 <html lang="vi" class="h-full">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Khóa học - Website Giảng Dạy Khóa Học</title>
+  <link rel="icon" type="image/png" href="./data/logo.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* ========================================
-       Hiệu ứng hover mượt mà cho thẻ khóa học
-       ======================================== */
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+      margin: 0;
+      padding: 0;
+      color: white;
+    }
+
     .course-card {
-      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    }
-    .course-card:hover {
-      transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    /* ========================================
-       Hiệu ứng hover và click cho nút mua
-       ======================================== */
-    .buy-button {
-      position: relative;
+      transition: all 0.3s ease;
+      border-radius: 16px; /* Hơi bo tròn hơn một chút */
+      background: rgba(255, 255, 255, 0.1); /* Tăng độ sáng của nền lên một chút */
+      backdrop-filter: blur(10px); /* Giảm blur một chút để chữ dễ đọc hơn */
+      -webkit-backdrop-filter: blur(10px); /* Hỗ trợ trình duyệt Safari */
+      border: 1px solid rgba(255, 255, 255, 0.18); /* Làm viền tinh tế hơn */
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25); /* Đổ bóng mềm và đẹp hơn */
       overflow: hidden;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-    .buy-button:hover {
-      transform: scale(1.05);
-      background-color: #16a34a;
-    }
-    .buy-button:active {
-      background-color: #ef4444;
-    }
-    .buy-button.clicked {
-      background-color: #ef4444;
-    }
-    .buy-button::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 300%;
-      height: 300%;
-      background: rgba(255, 255, 255, 0.2);
-      transform: translate(-50%, -50%) scale(0);
-      border-radius: 50%;
-      transition: transform 0.5s ease;
-    }
-    .buy-button:hover::after {
-      transform: translate(-50%, -50%) scale(1);
     }
 
-    /* ========================================
-       Đảm bảo hình ảnh khóa học responsive
-       ======================================== */
+
+    .course-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    }
+
     .course-image {
       width: 100%;
-      height: 12rem;
+      aspect-ratio: 16 / 9;
       object-fit: cover;
       object-position: center;
     }
-    @media (min-width: 768px) {
-      .course-image {
-        height: 14rem;
-      }
-    }
 
-    /* ========================================
-       Kiểu dáng cho đánh giá sao
-       ======================================== */
     .rating {
       display: flex;
-      align-items: center;
       gap: 4px;
     }
+
     .star {
-      font-size: 1.2rem;
+      font-size: 1rem;
+      color: #FFD700;
+      opacity: 0.5;
       cursor: pointer;
-      transition: color 0.2s ease;
+      transition: opacity 0.3s;
     }
-    .star.full {
-      color: #FFD700; /* Vàng đậm cho sao đầy */
-    }
-    .star.half {
-      color: rgba(255, 215, 0, 0.3); /* Vàng nhạt cho sao nửa */
-    }
-    .star.empty {
-      color: rgba(255, 215, 0, 0.1); /* Vàng rất nhạt cho sao rỗng */
-    }
+
+    .star.full { opacity: 1; }
     .star:hover,
     .star:hover ~ .star {
-      color: rgba(255, 215, 0, 0.5); /* Hiệu ứng hover nhạt */
+      opacity: 1;
+    }
+
+    .logo {
+      width: 200px;
+      max-width: 100%;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateX(-50%);
+    }
+
+    .course-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1.5rem;
+    }
+
+    .star-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: -10;
+    }
+
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .animate-spin-slow {
+      animation: spin-slow 10s linear infinite;
     }
   </style>
 </head>
-<body class="font-sans relative min-h-screen">
-  <!-- ========================================
-       Nền phủ toàn bộ trang và cuộn theo nội dung
-       ======================================== -->
-  <div class="fixed top-0 left-0 w-full h-full -z-10">
-    <img src="./data/bg-couses.png" alt="Ảnh nền" class="w-full h-full object-cover brightness-75">
+<body class="relative min-h-screen">
+
+  <!-- Ảnh nền -->
+  <div class="fixed inset-0 -z-20">
+    <img src="./data/bg-couses.png" alt="Ảnh nền" class="w-full h-full object-cover brightness-75" />
   </div>
 
-  <!-- ========================================
-       Nội dung chính của trang danh sách khóa học
-       ======================================== -->
-  <div class="container mx-auto p-8 text-white">
-    <p class="text-3xl font-bold text-center mb-8">DANH SÁCH KHÓA HỌC</p>
-    <!-- ========================================
-         Container để hiển thị danh sách khóa học
-         ======================================== -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="courseContainer"></div>
-    <!-- ========================================
-         Liên kết quay lại trang chủ
-         ======================================== -->
-    <p class="mt-8 text-center"><a href="index.html" class="text-blue-200 hover:underline">Quay lại trang chủ</a></p>
+  <!-- Sao lấp lánh -->
+  <canvas id="starCanvas" class="star-canvas"></canvas>
+
+  <div class="container mx-auto p-6 relative z-10">
+    <h1 class="text-3xl font-bold text-center mb-8">DANH SÁCH KHÓA HỌC</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 relative">
+      <!-- CapCut -->
+      <div class="flex flex-col items-center space-y-4">
+        <div class="relative w-[240px] h-[240px] flex items-center justify-center">
+          <div class="absolute inset-0 rounded-full border-[4px] border-dashed border-white animate-spin-slow"></div>
+          <img src="./data/cc.png" alt="CapCut" class="logo z-10" />
+        </div>
+        <div class="w-full border-t border-dashed border-white opacity-40 my-2"></div>
+        <div id="capcutCourses" class="course-container w-full space-y-4"></div>
+      </div>
+
+      <!-- After Effect -->
+      <div class="flex flex-col items-center space-y-4">
+        <div class="relative w-[240px] h-[240px] flex items-center justify-center">
+          <div class="absolute inset-0 rounded-full border-[4px] border-dashed border-white animate-spin-slow"></div>
+          <img src="./data/ae.png" alt="After Effect" class="logo z-10" />
+        </div>
+        <div class="w-full border-t border-dashed border-white opacity-40 my-2"></div>
+        <div id="aeCourses" class="course-container w-full space-y-4"></div>
+      </div>
+
+      <!-- Divider dọc -->
+      <div class="hidden md:block divider"></div>
+    </div>
+
+    <!-- Quay lại -->
+    <div class="text-center mt-12">
+      <a href="index.html" class="text-blue-300 hover:text-blue-100 text-lg">← Quay lại trang chủ</a>
+    </div>
   </div>
 
-  <!-- ========================================
-       Script xử lý hiệu ứng click cho nút mua
-       ======================================== -->
+  <!-- Disable chuột phải -->
   <script>
-    document.querySelectorAll('.buy-button').forEach(button => {
-      button.addEventListener('click', (event) => {
-        event.preventDefault();
-        const href = button.getAttribute('href');
-        button.classList.add('clicked');
-        setTimeout(() => {
-          button.classList.remove('clicked');
-          window.location.href = href;
-        }, 300);
-      });
-    });
+    document.addEventListener('contextmenu', e => e.preventDefault());
   </script>
 
-  <!-- ========================================
-       Script vô hiệu hóa chuột phải
-       ======================================== -->
+  <!-- Sao lấp lánh -->
   <script>
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
+    const canvas = document.getElementById("starCanvas");
+    const ctx = canvas.getContext("2d");
+    let stars = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createStars(count) {
+      stars = [];
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5 + 0.5,
+          opacity: Math.random(),
+        });
+      }
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let star of stars) {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(255,255,255,${star.opacity})`;
+        ctx.fill();
+      }
+    }
+
+    function twinkleStars() {
+      for (let star of stars) {
+        star.opacity += (Math.random() - 0.5) * 0.05;
+        star.opacity = Math.max(0, Math.min(1, star.opacity));
+      }
+    }
+
+    function animateStars() {
+      twinkleStars();
+      drawStars();
+      requestAnimationFrame(animateStars);
+    }
+
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      createStars(200);
     });
+
+    resizeCanvas();
+    createStars(200);
+    animateStars();
   </script>
-  <!-- ========================================
-       Script tải danh sách khóa học
-       ======================================== -->
+
   <script src="script-course-loader.js"></script>
 </body>
 </html>

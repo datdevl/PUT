@@ -6,6 +6,10 @@ ID_pic[
 bai1.png
 ]
 
+ID_type[
+CC
+]
+
 ID_name[
 Bài 1: Biên Tập Video
 ]

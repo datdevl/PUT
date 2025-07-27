@@ -9,7 +9,7 @@ ID_pic[
 pic1.png
 pic2.png
 pic1.png
-pic2.png
+bai.png
 ]
 
 ID_name[

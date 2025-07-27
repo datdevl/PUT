@@ -1,0 +1,28 @@
+name: Download video from Google Drive
+
+on:
+  workflow_dispatch:  # Cho phép bạn bấm nút "Run workflow" thủ công
+
+jobs:
+  fetch-video:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install gdown (Google Drive downloader)
+        run: pip install gdown
+
+      - name: Download video from Google Drive
+        run: |
+          mkdir -p videos
+          gdown --id 1-EWktt7o4StoHr4Lt1nVC2pSVyHHVrxt -O videos/video.mp4
+
+      - name: Commit and push video to repo
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add videos/video.mp4
+          git commit -m "Add video.mp4 from Google Drive"
+          git push

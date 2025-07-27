@@ -1,34 +1,19 @@
 ID_video[
-vid1.mp4
-vid2.mp4
-vid1.mp4
 bientapvideo.mp4
 ]
 
 ID_pic[
-pic1.png
-pic2.png
-pic1.png
 bai1.png
 ]
 
 ID_name[
-Bài 1: CapCut
-Bài 2: After Effect
-Bài 3: Ôn Tập
 Bài 1: Biên Tập Video
 ]
 
 ID_money[
-15.000 VNĐ
-50.000 VNĐ
-Miễn Phí
 20.000 VNĐ
 ]
 
 ID_courses[
-TD0001
-DL2007
-OT
 BT20K
 ]

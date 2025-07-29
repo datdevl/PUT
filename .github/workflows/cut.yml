@@ -21,7 +21,7 @@ jobs:
         run: |
           mkdir -p temp
           # Thay ID bằng ID đúng của file bạn muốn tải
-          gdown --id 1-EWktt7o4StoHr4Lt1nVC2pSVyHHVrxt -O temp/input.mp4
+          gdown --id 1uxbq1S4NCVZXvKcLUWJ7jL2qquVYOwRR -O temp/input.mp4
 
       - name: Compress video (still MP4)
         run: |
@@ -32,6 +32,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add TAINGUYEN/bientapvideo.mp4
+          git add TAINGUYEN/bientapvideo(tt).mp4
           git commit -m "Add processed video to TAINGUYEN"
           git push

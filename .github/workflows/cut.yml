@@ -20,18 +20,19 @@ jobs:
       - name: Download video from Google Drive
         run: |
           mkdir -p temp
-          # Thay ID bằng ID đúng của file bạn muốn tải
+          # 👉 Chỉ cần thay ID dưới đây thành ID Google Drive mới
           gdown --id 1uxbq1S4NCVZXvKcLUWJ7jL2qquVYOwRR -O temp/input.mp4
 
-      - name: Compress video (still MP4)
+      - name: Compress video and rename uniquely
         run: |
           mkdir -p TAINGUYEN
-          ffmpeg -i temp/input.mp4 -vcodec libx264 -acodec aac -crf 30 -preset fast TAINGUYEN/bientapvideo(t).mp4
+          timestamp=$(date +%Y%m%d%H%M%S)
+          ffmpeg -y -i temp/input.mp4 -vcodec libx264 -acodec aac -crf 30 -preset fast TAINGUYEN/video_$timestamp.mp4
 
       - name: Commit and push
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add TAINGUYEN/bientapvideo(t).mp4
-          git commit -m "Add processed video to TAINGUYEN"
+          git add TAINGUYEN/
+          git commit -m "Add new compressed video with timestamp"
           git push

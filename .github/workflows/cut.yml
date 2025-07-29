@@ -20,10 +20,10 @@ jobs:
       - name: Download video from Google Drive
         run: |
           mkdir -p temp
-          # 👉 Chỉ cần thay ID dưới đây thành ID Google Drive mới
-          gdown --id 1PyZ7y5bJDLnvi1tvuUSMXEg3spMYXw9x -O temp/input.mp4
+          # 👉 Thay ID ở đây nếu bạn muốn đổi video
+          gdown --id 1uxbq1S4NCVZXvKcLUWJ7jL2qquVYOwRR -O temp/input.mp4
 
-      - name: Compress video and rename uniquely
+      - name: Compress video and save with timestamp
         run: |
           mkdir -p TAINGUYEN
           timestamp=$(date +%Y%m%d%H%M%S)
@@ -33,6 +33,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+          git pull --rebase
           git add TAINGUYEN/
           git commit -m "Add new compressed video with timestamp"
           git push

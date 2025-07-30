@@ -4,6 +4,7 @@ video_20250729125640.mp4
 video_20250729131656.mp4
 video_20250730161935.mp4
 video_20250730163055.mp4
+video_20250730164721.mp4
 ]
 
 ID_pic[
@@ -12,10 +13,12 @@ bai1t.png
 bai1tt.png
 bai2.png
 bai3.png
+bai4.png
 ]
 
 ID_type[
 CC
+cc
 cc
 cc
 cc
@@ -28,6 +31,7 @@ Bài 1: Biên Tập Video (Tiết 2)
 Bài 1: Biên Tập Video (Tiết 3)
 BÀI 2: Xuất video 
 BÀI 3: Âm Thanh, Trích Xuát Âm Thanh
+Bài 4: Thay Đổi Tốc Độ Âm Thanh Video
 ]
 
 ID_money[
@@ -36,6 +40,7 @@ ID_money[
 4.000 VNĐ
 2.000 VNĐ
 3.000 VNĐ
+4.000 VNĐ
 ]
 
 ID_courses[
@@ -44,4 +49,5 @@ BT15KP1
 BT4KPP2
 XUATVID
 TXVIDEO
+ATVIDEO
 ]

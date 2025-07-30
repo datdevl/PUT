@@ -21,7 +21,7 @@ jobs:
         run: |
           mkdir -p temp
           # 👉 Thay ID ở đây nếu bạn muốn đổi video
-          gdown --id 1r0WnAbkBJv3eJotDCtdYdJHq9n1BBUTi -O temp/input.mp4
+          gdown --id 18DZi2NaTDcxMhPn3nFBX7FwQ3ZCh-4Eg -O temp/input.mp4
 
       - name: Compress video and save with timestamp
         run: |

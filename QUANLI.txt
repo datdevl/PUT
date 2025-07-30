@@ -2,16 +2,19 @@ ID_video[
 bientapvideo.mp4
 video_20250729125640.mp4
 video_20250729131656.mp4
+video_20250730161935.mp4
 ]
 
 ID_pic[
 bai1.png
 bai1t.png
 bai1tt.png
+bai2.png
 ]
 
 ID_type[
 CC
+cc
 cc
 cc
 ]
@@ -20,16 +23,19 @@ ID_name[
 Bài 1: Biên Tập Video
 Bài 1: Biên Tập Video (Tiết 2)
 Bài 1: Biên Tập Video (Tiết 3)
+BÀI 2: XUẤT VIDEO
 ]
 
 ID_money[
 20.000 VNĐ
 15.000 VNĐ
 4.000 VNĐ
+2.000 VNĐ
 ]
 
 ID_courses[
 BT20K
 BT15KP1
 BT4KPP2
+XUATVID
 ]

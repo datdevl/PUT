@@ -1,4 +1,4 @@
-name: Download and Move Video to TAINGUYEN
+name: Download and Move Multiple Videos (Random Names)
 
 on:
   workflow_dispatch:
@@ -17,17 +17,23 @@ jobs:
           sudo apt update
           sudo apt install -y ffmpeg
 
-      - name: Download video from Google Drive
+      - name: Download and compress multiple videos
         run: |
-          mkdir -p temp
-          # 👉 Thay ID ở đây nếu bạn muốn đổi video
-          gdown --id 18DZi2NaTDcxMhPn3nFBX7FwQ3ZCh-4Eg -O temp/input.mp4
+          mkdir -p temp TAINGUYEN
 
-      - name: Compress video and save with timestamp
-        run: |
-          mkdir -p TAINGUYEN
-          timestamp=$(date +%Y%m%d%H%M%S)
-          ffmpeg -y -i temp/input.mp4 -vcodec libx264 -acodec aac -crf 30 -preset fast TAINGUYEN/video_$timestamp.mp4
+          # Danh sách các ID video Google Drive
+          ids=(
+            1BWMlzamC5x2YueKsVsGvF2DLNdmlo3wG
+            1MCKB_acSDkGPNMGs3-Ah0Jo-3c6NQguz
+            1-1Xw8-j_GTrddspVu2pL6ACIOJ3zlEyY7u
+            1yUCW7S_8SOcLsAqMcaDyA5IvBCU2aKld
+          )
+
+          for id in "${ids[@]}"; do
+            random_name=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 10 | head -n 1)
+            gdown --id "$id" -O "temp/$random_name.mp4"
+            ffmpeg -y -i "temp/$random_name.mp4" -vcodec libx264 -acodec aac -crf 30 -preset fast "TAINGUYEN/video_$random_name.mp4"
+          done
 
       - name: Commit and push
         run: |
@@ -35,5 +41,5 @@ jobs:
           git config user.email "github-actions@github.com"
           git pull --rebase
           git add TAINGUYEN/
-          git commit -m "Add new compressed video with timestamp"
+          git commit -m "Add random-named videos"
           git push

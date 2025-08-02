@@ -1,4 +1,4 @@
-name: Download and Move Multiple Videos (Random Names)
+name: Download and Move Video to TAINGUYEN
 
 on:
   workflow_dispatch:
@@ -16,39 +16,21 @@ jobs:
           pip install gdown
           sudo apt update
           sudo apt install -y ffmpeg
-
-      - name: Download and compress multiple videos
+      - name: Download video from Google Drive
         run: |
-          mkdir -p temp TAINGUYEN
-
-          # Danh sách các ID video Google Drive
-          ids=(
-            1BWMlzamC5x2YueKsVsGvF2DLNdmlo3wG
-            1MCKB_acSDkGPNMGs3-Ah0Jo-3c6NQguz
-            1-1Xw8-j_GTrddspVu2pL6ACIOJ3zlEyY7u
-            1yUCW7S_8SOcLsAqMcaDyA5IvBCU2aKld
-          )
-
-          for id in "${ids[@]}"; do
-            echo "📥 Đang tải video từ ID: $id"
-            random_name=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 10 | head -n 1)
-
-            # Tải video với timeout 5 phút và suppress warning
-            timeout 300 gdown --id "$id" --fuzzy --quiet -O "temp/$random_name.mp4"
-
-            if [ -f "temp/$random_name.mp4" ]; then
-              echo "🎞️ Nén video: $random_name"
-              ffmpeg -y -i "temp/$random_name.mp4" -vcodec libx264 -acodec aac -crf 30 -preset fast "TAINGUYEN/video_$random_name.mp4"
-            else
-              echo "❌ Lỗi tải video từ ID: $id"
-            fi
-          done
-
+          mkdir -p temp
+          # 👉 Thay ID ở đây nếu bạn muốn đổi video
+          gdown --id 1BWMlzamC5x2YueKsVsGvF2DLNdmlo3wG -O temp/input.mp4
+      - name: Compress video and save with timestamp
+        run: |
+          mkdir -p TAINGUYEN
+          timestamp=$(date +%Y%m%d%H%M%S)
+          ffmpeg -y -i temp/input.mp4 -vcodec libx264 -acodec aac -crf 30 -preset fast TAINGUYEN/video_$timestamp.mp4
       - name: Commit and push
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git pull --rebase
           git add TAINGUYEN/
-          git commit -m "Add random-named videos"
+          git commit -m "Add new compressed video with timestamp"
           git push

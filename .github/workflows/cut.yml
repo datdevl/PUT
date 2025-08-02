@@ -1,4 +1,4 @@
-name: Download and Move Video to TAINGUYEN
+name:TẢI VIDEO1
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
         run: |
           mkdir -p temp
           # 👉 Thay ID ở đây nếu bạn muốn đổi video
-          gdown --id 1BWMlzamC5x2YueKsVsGvF2DLNdmlo3wG -O temp/input.mp4
+          gdown --id 1Xw8-j_GTrddspVu2pL6ACIOJ3zlEyY7u -O temp/input.mp4
       - name: Compress video and save with timestamp
         run: |
           mkdir -p TAINGUYEN

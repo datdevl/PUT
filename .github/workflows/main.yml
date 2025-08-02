@@ -1,0 +1,36 @@
+name: TẢI VIDEO2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fetch-move:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install gdown and ffmpeg
+        run: |
+          pip install gdown
+          sudo apt update
+          sudo apt install -y ffmpeg
+      - name: Download video from Google Drive
+        run: |
+          mkdir -p temp
+          # 👉 Thay ID ở đây nếu bạn muốn đổi video
+          gdown --id 1MCKB_acSDkGPNMGs3-Ah0Jo-3c6NQguz -O temp/input.mp4
+      - name: Compress video and save with timestamp
+        run: |
+          mkdir -p TAINGUYEN
+          timestamp=$(date +%Y%m%d%H%M%S)
+          ffmpeg -y -i temp/input.mp4 -vcodec libx264 -acodec aac -crf 30 -preset fast TAINGUYEN/video_$timestamp.mp4
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git pull --rebase
+          git add TAINGUYEN/
+          git commit -m "Add new compressed video with timestamp"
+          git push

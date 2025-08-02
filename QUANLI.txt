@@ -13,10 +13,12 @@ x
 x
 x
 x
+x
+x
+x
 ]
 
 ID_pic[
-1.png
 1.1.png
 1.2.png
 1.3.png
@@ -46,6 +48,10 @@ cc
 cc
 cc
 cc
+cc
+cc
+cc
+cc
 ]
 
 ID_name[
@@ -53,17 +59,18 @@ Bài 1: Biên Tập Video
 Bài 1: Biên Tập Video (Tiết 2)
 Bài 1: Biên Tập Video (Tiết 3)
 BÀI 2: Xuất video 
-BÀI 3: Âm Thanh, Trích Xuát Âm Thanh
+BÀI 3: Âm Thanh, Trích Xuất Âm Thanh
 Bài 4: Thay Đổi Tốc Độ Âm Thanh Video
 Bài 5: Trích Xuất Am Thanh Mà Không Cần PRO
 Bài 6: Tạo Văn Bản
 Bài 7: Chuyển Văn Bản Thành Giong Nói, Thay Đổi Giọng Nói
 Bài 8: Mặt Nạ
 Bài 9: Xóa Nền
-BÀI 11:
-BÀI 12:
-BÀI 13:
-BÀI 14:
+BÀI 10: Clip Ghép, Ý Nghĩa Của Clip Ghép
+BÀI 11: Keyframe 2 Điểm, Keyframe 3 Điểm
+BÀI 12: Mẫu Phụ Đề, Văn Bản, Hiệu Ứng Chữ Mới
+BÀI 13: Chỉnh Màu Video - Hình Ảnh
+
 ]
 
 ID_money[
@@ -96,4 +103,8 @@ TAOVB1
 TEXTOVOI
 MATNAA
 XOAANEN
+CLIPGEP
+KEYFR
+MAUCC
+COLORV-P
 ]

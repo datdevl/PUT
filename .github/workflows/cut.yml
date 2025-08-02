@@ -30,9 +30,18 @@ jobs:
           )
 
           for id in "${ids[@]}"; do
+            echo "📥 Đang tải video từ ID: $id"
             random_name=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 10 | head -n 1)
-            gdown --id "$id" -O "temp/$random_name.mp4"
-            ffmpeg -y -i "temp/$random_name.mp4" -vcodec libx264 -acodec aac -crf 30 -preset fast "TAINGUYEN/video_$random_name.mp4"
+
+            # Tải video với timeout 5 phút và suppress warning
+            timeout 300 gdown --id "$id" --fuzzy --quiet -O "temp/$random_name.mp4"
+
+            if [ -f "temp/$random_name.mp4" ]; then
+              echo "🎞️ Nén video: $random_name"
+              ffmpeg -y -i "temp/$random_name.mp4" -vcodec libx264 -acodec aac -crf 30 -preset fast "TAINGUYEN/video_$random_name.mp4"
+            else
+              echo "❌ Lỗi tải video từ ID: $id"
+            fi
           done
 
       - name: Commit and push
